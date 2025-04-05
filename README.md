@@ -58,7 +58,6 @@ This project represents my wonderful learning experience and how I was so patien
 
 ### Chapter 2: C Fundamentals
 
-- Exercises (10 questions)
 - Programming Project 1
 - Programming Project 2
 - Programming Project 3
