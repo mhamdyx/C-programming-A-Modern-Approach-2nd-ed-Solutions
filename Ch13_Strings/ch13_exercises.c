@@ -574,8 +574,8 @@ void remove_filename(char *url)
 int main(void)
 {
 	char url1[] = "http://www.knking.com/index.html";
-	char url2[] = "https://www.github.com/SuperMoudy";
-	char url3[] = "https://github.com/SuperMoudy/b7b_el_cima/blob/master/README.md";
+	char url2[] = "https://www.github.com/mhamdyx";
+	char url3[] = "https://github.com/mhamdyx/b7b_el_cima/blob/master/README.md";
 
 	remove_filename(url1);
 	remove_filename(url2);
