@@ -2,7 +2,7 @@
  * queueclient.c
  *
  *  Created on: May 12, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 7: queueclient.c

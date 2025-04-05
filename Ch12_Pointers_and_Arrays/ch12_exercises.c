@@ -2,7 +2,7 @@
  * ch12_exercises.c
  *
  *  Created on: Dec 4, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Q1

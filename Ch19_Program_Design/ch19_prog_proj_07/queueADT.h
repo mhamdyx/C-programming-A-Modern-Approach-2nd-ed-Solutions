@@ -2,7 +2,7 @@
  * queueADT.h
  *
  *  Created on: May 12, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 #ifndef QUEUEADT_H_

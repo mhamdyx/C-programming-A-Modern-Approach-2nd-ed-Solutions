@@ -2,7 +2,7 @@
  * qsort.c
  *
  *  Created on: Dec 30, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 3: Quicksort algorithm

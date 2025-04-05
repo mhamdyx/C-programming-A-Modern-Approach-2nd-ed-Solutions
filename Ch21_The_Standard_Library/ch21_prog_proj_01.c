@@ -2,7 +2,7 @@
  * ch21_prog_proj_01.c
  *
  *  Created on: May 23, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 1: offsetof

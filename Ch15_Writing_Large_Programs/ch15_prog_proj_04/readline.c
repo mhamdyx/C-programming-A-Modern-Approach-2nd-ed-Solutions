@@ -2,7 +2,7 @@
  * readline.c
  *
  *  Created on: Dec 30, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 #include <stdio.h>

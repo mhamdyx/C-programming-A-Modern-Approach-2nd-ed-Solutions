@@ -2,7 +2,7 @@
  * ch8_prog_proj_14.c
  *
  *  Created on: Dec 5, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 14: Reverse words in a sentence

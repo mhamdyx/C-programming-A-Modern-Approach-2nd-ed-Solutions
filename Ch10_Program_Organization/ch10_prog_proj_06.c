@@ -2,7 +2,7 @@
  * ch10_prog_proj_06.c
  *
  *  Created on: Nov 11, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 6: RPN expressions

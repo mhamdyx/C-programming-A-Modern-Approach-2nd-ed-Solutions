@@ -14,7 +14,7 @@
  * ch17_prog_proj_07.c
  *
  *  Created on: Apr 9, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 7: remind2

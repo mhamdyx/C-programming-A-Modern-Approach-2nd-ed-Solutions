@@ -2,7 +2,7 @@
  * ch13_prog_proj_01.c
  *
  *  Created on: Dec 17, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 1: Smallest & Largest words

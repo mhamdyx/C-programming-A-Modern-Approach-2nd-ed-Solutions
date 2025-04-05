@@ -2,7 +2,7 @@
  * ch12_prog_proj_06.c
  *
  *  Created on: Dec 5, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 6: Quicksort algorithm

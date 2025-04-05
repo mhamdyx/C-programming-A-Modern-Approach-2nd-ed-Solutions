@@ -2,7 +2,7 @@
  * ch13_prog_proj_15.c
  *
  *  Created on: Dec 22, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 15: RPN expressions

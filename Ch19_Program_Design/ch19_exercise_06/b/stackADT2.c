@@ -13,7 +13,7 @@
  * stackADT2.c
  *
  *  Created on: May 10, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // b) Stack ADT (Dynamic array representation)

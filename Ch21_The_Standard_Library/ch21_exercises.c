@@ -2,7 +2,7 @@
  * ch21_exercises.c
  *
  *  Created on: May 23, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Q1

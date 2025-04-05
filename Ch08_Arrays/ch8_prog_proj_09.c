@@ -2,7 +2,7 @@
  * ch8_prog_proj_09.c
  *
  *  Created on: Oct 23, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 9: Random Walk

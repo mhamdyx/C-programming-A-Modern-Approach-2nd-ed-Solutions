@@ -2,7 +2,7 @@
  * ch2_prog_proj_07.c
  *
  *  Created on: Nov 19, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Project 7: Smallest number of bills

@@ -2,7 +2,7 @@
  * ch11_prog_proj_03.c
  *
  *  Created on: Nov 23, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 3: Fraction's lowest terms (GCD)

@@ -2,7 +2,7 @@
  * stackADT.c
  *
  *  Created on: May 11, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Stack ADT (Fixed-length array representation)

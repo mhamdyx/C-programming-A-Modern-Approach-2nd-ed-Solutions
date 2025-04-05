@@ -2,7 +2,7 @@
  * ch7_prog_proj_04.c
  *
  *  Created on: Mar 14, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 4: Alphabetic phone number

@@ -2,7 +2,7 @@
  * line.c
  *
  *  Created on: Dec 29, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 #include <stdio.h>

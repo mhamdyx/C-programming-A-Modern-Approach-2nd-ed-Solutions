@@ -2,7 +2,7 @@
  * ch8_prog_proj_15.c
  *
  *  Created on: Dec 20, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 15: Caesar Cipher

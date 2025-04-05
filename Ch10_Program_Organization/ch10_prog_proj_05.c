@@ -2,7 +2,7 @@
  * ch10_prog_proj_05.c
  *
  *  Created on: Nov 9, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 5: Poker

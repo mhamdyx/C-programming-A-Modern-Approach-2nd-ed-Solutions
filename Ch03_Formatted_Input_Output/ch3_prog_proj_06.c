@@ -2,7 +2,7 @@
  * ch3_prog_proj_06.c
  *
  *  Created on: Mar 15, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 6: Adding Fractions

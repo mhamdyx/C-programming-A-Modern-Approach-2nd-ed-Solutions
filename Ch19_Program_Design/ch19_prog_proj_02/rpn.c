@@ -2,7 +2,7 @@
  * rpn.c
  *
  *  Created on: May 11, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 2: RPN expressions

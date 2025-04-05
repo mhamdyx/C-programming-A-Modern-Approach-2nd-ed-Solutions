@@ -2,7 +2,7 @@
  * ch3_exercises.c
  *
  *  Created on: Mar 19, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 

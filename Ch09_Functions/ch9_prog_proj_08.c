@@ -2,7 +2,7 @@
  * ch9_prog_proj_08.c
  *
  *  Created on: Oct 25, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 8: Game of craps

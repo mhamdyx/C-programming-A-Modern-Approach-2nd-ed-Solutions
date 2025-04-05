@@ -2,7 +2,7 @@
  * ch16_prog_proj_01.c
  *
  *  Created on: Mar 12, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 1: International telephone calls

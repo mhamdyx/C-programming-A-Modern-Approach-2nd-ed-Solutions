@@ -2,7 +2,7 @@
  * ch2_prog_proj_08.c
  *
  *  Created on: Mar 13, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Project 8: Remaining balance on a loan

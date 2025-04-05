@@ -2,7 +2,7 @@
  * stack.c
  *
  *  Created on: May 9, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Stack type (Linked-list representation)

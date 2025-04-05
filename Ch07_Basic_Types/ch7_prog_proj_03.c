@@ -2,7 +2,7 @@
  * ch7_prog_proj_03.c
  *
  *  Created on: Mar 14, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 3: Summing a Series of Numbers

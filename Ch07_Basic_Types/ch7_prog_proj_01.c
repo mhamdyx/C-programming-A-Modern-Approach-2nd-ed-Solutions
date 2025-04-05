@@ -2,7 +2,7 @@
  * ch7_prog_proj_01.c
  *
  *  Created on: Mar 14, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 1: Printing a Table of Squares (Analysis)

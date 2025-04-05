@@ -2,7 +2,7 @@
  * ch20_prog_proj_01.c
  *
  *  Created on: May 18, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 1: Float representation

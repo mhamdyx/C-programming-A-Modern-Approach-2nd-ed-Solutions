@@ -2,7 +2,7 @@
  * ch13_prog_proj_09.c
  *
  *  Created on: Dec 21, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 9: Number of Vowels

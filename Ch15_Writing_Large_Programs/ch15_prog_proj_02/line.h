@@ -2,7 +2,7 @@
  * line.h
  *
  *  Created on: Dec 29, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 #ifndef LINE_H_

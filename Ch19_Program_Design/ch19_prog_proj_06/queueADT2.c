@@ -2,7 +2,7 @@
  * queueADT2.c
  *
  *  Created on: May 12, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Queue ADT (Dynamic array representation)

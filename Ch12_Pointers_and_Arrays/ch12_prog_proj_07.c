@@ -2,7 +2,7 @@
  * ch12_prog_proj_07.c
  *
  *  Created on: Dec 5, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 7: Largest and smallest elements in an array

@@ -2,7 +2,7 @@
  * ch4_exercises.c
  *
  *  Created on: Apr 1, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Q1

@@ -2,7 +2,7 @@
  * ch8_prog_proj_17.c
  *
  *  Created on: Oct 24, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 17: Magic square

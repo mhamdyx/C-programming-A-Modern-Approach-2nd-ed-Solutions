@@ -2,7 +2,7 @@
  * stack.h
  *
  *  Created on: May 9, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 #ifndef STACK_H_

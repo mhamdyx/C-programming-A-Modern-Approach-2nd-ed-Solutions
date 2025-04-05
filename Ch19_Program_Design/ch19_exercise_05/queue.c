@@ -2,7 +2,7 @@
  * queue.c
  *
  *  Created on: May 10, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Queue type (Fixed-length array representation)

@@ -2,7 +2,7 @@
  * ch16_prog_proj_06.c
  *
  *  Created on: Mar 13, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 6: Comparing Dates

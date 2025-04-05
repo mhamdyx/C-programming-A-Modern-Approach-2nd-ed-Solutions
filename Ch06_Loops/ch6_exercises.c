@@ -2,7 +2,7 @@
  * ch6_exercises.c
  *
  *  Created on: Mar 12, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Q1

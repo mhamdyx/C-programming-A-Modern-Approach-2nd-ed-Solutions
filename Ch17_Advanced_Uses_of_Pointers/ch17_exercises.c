@@ -2,7 +2,7 @@
  * ch17_exercises.c
  *
  *  Created on: Apr 7, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Q1

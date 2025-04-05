@@ -2,7 +2,7 @@
  * ch9_exercises.c
  *
  *  Created on: Oct 21, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Q1

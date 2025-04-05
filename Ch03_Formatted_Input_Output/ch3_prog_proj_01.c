@@ -2,7 +2,7 @@
  * ch3_prog_proj_01.c
  *
  *  Created on: Mar 19, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 1:  Display date

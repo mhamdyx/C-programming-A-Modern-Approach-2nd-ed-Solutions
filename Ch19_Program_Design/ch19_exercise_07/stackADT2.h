@@ -2,7 +2,7 @@
  * stackADT2.h
  *
  *  Created on: May 10, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 #ifndef STACKADT2_H_

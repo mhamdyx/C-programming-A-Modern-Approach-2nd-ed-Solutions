@@ -2,7 +2,7 @@
  * ch4_prog_proj_02.c
  *
  *  Created on: Apr 1, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 2: Reversing number's digits (Extended)

@@ -2,7 +2,7 @@
  * ch7_prog_proj_11.c
  *
  *  Created on: Dec 19, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 11: First name and Last name

@@ -13,7 +13,7 @@
  * ch6_prog_proj_04.c
  *
  *  Created on: Mar 12, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 4: Broker's commission

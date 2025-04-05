@@ -2,7 +2,7 @@
  * ch6_prog_proj_01.c
  *
  *  Created on: Mar 12, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 1: Largest non-negative number entered

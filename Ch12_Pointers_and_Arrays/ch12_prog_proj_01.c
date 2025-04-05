@@ -2,7 +2,7 @@
  * ch12_prog_proj_01.c
  *
  *  Created on: Dec 4, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 1: Message Reversal

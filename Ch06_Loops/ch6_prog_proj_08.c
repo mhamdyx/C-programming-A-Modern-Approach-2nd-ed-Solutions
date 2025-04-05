@@ -2,7 +2,7 @@
  * ch6_prog_proj_08.c
  *
  *  Created on: Mar 13, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 8: One-month calendar

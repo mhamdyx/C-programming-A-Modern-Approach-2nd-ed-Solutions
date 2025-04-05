@@ -2,7 +2,7 @@
  * ch14_exercises.c
  *
  *  Created on: Dec 27, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Q1 + test script

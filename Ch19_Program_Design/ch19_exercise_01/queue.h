@@ -2,7 +2,7 @@
  * queue.h
  *
  *  Created on: May 9, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 #ifndef QUEUE_H_

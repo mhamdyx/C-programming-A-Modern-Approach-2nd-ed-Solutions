@@ -2,7 +2,7 @@
  * inventory.c
  *
  *  Created on: Apr 8, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 3: Inventory2 Database

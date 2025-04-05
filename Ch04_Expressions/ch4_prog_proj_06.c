@@ -2,7 +2,7 @@
  * ch4_prog_proj_06.c
  *
  *  Created on: Apr 2, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 6: Computing the EAN check digit

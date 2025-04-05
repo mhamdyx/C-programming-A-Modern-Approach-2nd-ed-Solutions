@@ -2,7 +2,7 @@
  * ch10_prog_proj_01.c
  *
  *  Created on: Nov 2, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
  // Programming Project 1: Stack

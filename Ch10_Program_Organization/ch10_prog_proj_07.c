@@ -2,7 +2,7 @@
  * ch10_prog_proj_07.c
  *
  *  Created on: Nov 12, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 7: Seven-segment display

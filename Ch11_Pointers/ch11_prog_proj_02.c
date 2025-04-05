@@ -2,7 +2,7 @@
  * ch11_prog_proj_02.c
  *
  *  Created on: Nov 23, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 2: Daily Flights

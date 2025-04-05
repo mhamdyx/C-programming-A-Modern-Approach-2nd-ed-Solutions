@@ -2,7 +2,7 @@
  * ch6_prog_proj_09.c
  *
  *  Created on: Mar 13, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 9: Remaining balance on a loan

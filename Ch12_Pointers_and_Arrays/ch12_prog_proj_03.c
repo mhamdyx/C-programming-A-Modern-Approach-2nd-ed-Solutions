@@ -2,7 +2,7 @@
  * ch12_prog_proj_03.c
  *
  *  Created on: Dec 5, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 3: Message Reversal (Same as 1.b)

@@ -13,7 +13,7 @@
  * stackADT3.c
  *
  *  Created on: May 10, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // c) Stack ADT (Linked-list representation)

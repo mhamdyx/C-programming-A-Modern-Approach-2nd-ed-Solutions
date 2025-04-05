@@ -2,7 +2,7 @@
  * ch13_exercises.c
  *
  *  Created on: Dec 17, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Q1

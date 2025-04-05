@@ -2,7 +2,7 @@
  * reverse.c
  *
  *  Created on: Dec 18, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 4: Echo command-line arguments in reverse order

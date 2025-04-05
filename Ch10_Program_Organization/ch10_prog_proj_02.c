@@ -2,7 +2,7 @@
  * ch10_prog_proj_02.c
  *
  *  Created on: Nov 7, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 2: Poker

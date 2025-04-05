@@ -2,7 +2,7 @@
  * ch17_prog_proj_06.c
  *
  *  Created on: Apr 9, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 6: Sort Words

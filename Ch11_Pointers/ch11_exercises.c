@@ -2,7 +2,7 @@
  * ch44_exercises.c
  *
  *  Created on: Nov 19, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Q1

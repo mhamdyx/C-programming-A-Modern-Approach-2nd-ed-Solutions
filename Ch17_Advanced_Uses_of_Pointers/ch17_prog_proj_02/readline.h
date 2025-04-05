@@ -2,7 +2,7 @@
  * readline.h
  *
  *  Created on: Apr 7, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 #ifndef READLINE_H_

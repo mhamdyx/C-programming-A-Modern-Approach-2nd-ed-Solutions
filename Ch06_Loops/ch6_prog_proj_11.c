@@ -2,7 +2,7 @@
  * ch6_prog_proj_11.c
  *
  *  Created on: Mar 13, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 11: Calculating mathematical constant e

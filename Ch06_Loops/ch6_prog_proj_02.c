@@ -2,7 +2,7 @@
  * ch6_prog_proj_02.c
  *
  *  Created on: Mar 12, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 2: Greatest common divison (GCD)

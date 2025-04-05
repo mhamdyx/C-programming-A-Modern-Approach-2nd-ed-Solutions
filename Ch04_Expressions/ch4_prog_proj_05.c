@@ -13,7 +13,7 @@
  * ch4_prog_proj_05.c
  *
  *  Created on: Apr 1, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 5: Computing a UPC check digit (Rewritten)

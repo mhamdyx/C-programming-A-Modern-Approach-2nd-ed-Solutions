@@ -2,7 +2,7 @@
  * ch6_prog_proj_06.c
  *
  *  Created on: Mar 12, 2024
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 6: Even squares between 1 and n

@@ -2,7 +2,7 @@
  * justify.c
  *
  *  Created on: Apr 8, 2020
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 4: Justify

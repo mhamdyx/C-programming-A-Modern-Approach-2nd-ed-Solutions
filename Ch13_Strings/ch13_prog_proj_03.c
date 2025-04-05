@@ -2,7 +2,7 @@
  * ch13_prog_proj_03.c
  *
  *  Created on: Dec 18, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 3: Dealing random hand of cards(8.2 deal.c)

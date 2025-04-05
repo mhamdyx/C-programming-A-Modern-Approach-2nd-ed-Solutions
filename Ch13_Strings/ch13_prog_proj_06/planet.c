@@ -2,7 +2,7 @@
  * planet.c
  *
  *  Created on: Dec 19, 2019
- *      Author: SuperMoudy
+ *      Author: Mahmoud Hamdy
  */
 
 // Programming Project 6: Checking Planet Names (Improved)
