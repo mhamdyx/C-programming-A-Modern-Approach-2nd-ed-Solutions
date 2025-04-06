@@ -56,10 +56,6 @@ This project represents my wonderful learning experience and how I was so patien
 
 ## Unfinished work
 
-### Chapter 2: C Fundamentals
-
-- Programming Project 6
-
 ### Chapter 5: Selection Statements
 
 - Exercises (11 questions)
