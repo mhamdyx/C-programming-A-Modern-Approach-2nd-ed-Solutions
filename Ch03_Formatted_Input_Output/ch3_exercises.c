@@ -50,7 +50,9 @@
  * next '-' character, hence we cannot write inputs like this: 5 -2 -3
  *
  * "%d -%d -%d" -> scanf does expect a space between %d and the next
- * '-' although it's optional
+ * '-' although it's optional (because a whitespace character in a
+ * format string matches any number of whitespace characters in the
+ * input, including none)
  *
  * c) Not equivalent
  * "%f" -> scanf leaves '\n' to be read on the next scan
