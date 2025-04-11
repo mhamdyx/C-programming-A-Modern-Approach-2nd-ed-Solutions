@@ -115,10 +115,21 @@
  * Total % 10 --->(1)
  * 10 - (1) ----->(2)
  *
- * The simplified technique will not work simply because it is not
- * equivalent to the original. The order of operations of changed
- * and these operations are not cannot replace each other
- * (Remainder from division cannot replace subtraction)
+ * After running some tests, while the simplified technique will
+ * mostly produce the same results, there is a special case that
+ * every time the total is divisible by 10,  the difference in
+ * the order of operations leads to different results.
+ *
+ * For example, suppose the total is 10
+ * If we apply the original algorithm:
+ * 9 - [(10 - 1) % 10] = 9 - [9 % 10] = 9 - 9 = 0
+ *
+ * If we apply the simplified algorithm:
+ * 10 - [10 % 10] = 10 - 0 = 10
+ *
+ * The latter value is invalid for a one-digit check value
+ * (which is supposed to be a value between 0 and 9)
+ *
  *
  */
 
@@ -131,8 +142,8 @@
  * If we use printf on both equations (given the same total value),
  * we will get the same result hence the program still works
  *
- * Math approach: Using modular arithmetic, we can prove that both
- * equations are equivalent
+ * Hint: Since the total can't be zero, use test values from 1 to 10,
+ * and compare the results.
  *
  */
 
