@@ -27,7 +27,7 @@ This project represents my wonderful learning experience and how I was so patien
 - [Chapter 2: C Fundamentals](Ch02_C_Fundamentals) ![image](https://progress-bar.xyz/100/?width=100)
 - [Chapter 3: Formatted Input/Output](Ch03_Formatted_Input_Output) ![image](https://progress-bar.xyz/100/?width=100)
 - [Chapter 4: Expressions](Ch04_Expressions) ![image](https://progress-bar.xyz/100/?width=100)
-- [Chapter 5: Selection Statements](Ch05_Selection_Statements) ![image](https://progress-bar.xyz/20/?width=100&scale=22&suffix=/22)
+- [Chapter 5: Selection Statements](Ch05_Selection_Statements) ![image](https://progress-bar.xyz/21/?width=100&scale=22&suffix=/22)
 - [Chapter 6: Loops](Ch06_Loops) ![image](https://progress-bar.xyz/100/?width=100)
 - [Chapter 7: Basic Types](Ch07_Basic_Types) ![image](https://progress-bar.xyz/24/?width=100&scale=30&suffix=/30)
 - [Chapter 8: Arrays](Ch08_Arrays) ![image](https://progress-bar.xyz/5/?width=100&scale=28&suffix=/28)
@@ -58,7 +58,6 @@ This project represents my wonderful learning experience and how I was so patien
 
 ### Chapter 5: Selection Statements
 
-- Programming Project 7
 - Programming Project 10
 
 ### Chapter 7: Basic Types
