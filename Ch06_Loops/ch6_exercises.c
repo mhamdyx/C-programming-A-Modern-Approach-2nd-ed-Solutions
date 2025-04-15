@@ -166,7 +166,7 @@
  *
  * 		// The rest of the loop body
  *
- * END_OF_LOOP_NODY: ; // At least one statement is required here
+ * END_OF_LOOP_BODY: ; // At least one statement is required here
  *
  * }
  *
