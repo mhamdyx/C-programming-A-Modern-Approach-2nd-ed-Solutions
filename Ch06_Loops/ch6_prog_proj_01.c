@@ -11,12 +11,12 @@
 
 int main(void)
 {
-	double number = 0.0, largest_number = 0.0;
+	float number, largest_number = 0.0f;
 
 	for(;;)
 	{
 		printf("Enter a number: ");
-		scanf("%lf", &number);
+		scanf("%f", &number);
 
 		if(number <= 0)
 			break;
