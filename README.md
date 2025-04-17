@@ -50,7 +50,12 @@ This project represents my wonderful learning experience and how I was so patien
 ### The Standard C Library
 
 - [Chapter 21: The Standard Library](Ch21_The_Standard_Library) ![image](https://progress-bar.xyz/100/?width=100)
-- More chapters are coming soon
+- Chapter 22: Input Output ![image](https://progress-bar.xyz/0/?width=100&scale=35&suffix=/35)
+- Chapter 23: Library Support for Numbers and Character Data ![image](https://progress-bar.xyz/0/?width=100&scale=20&suffix=/20)
+- Chapter 24: Error Handling ![image](https://progress-bar.xyz/0/?width=100&scale=5&suffix=/5)
+- Chapter 25: International Features ![image](https://progress-bar.xyz/0/?width=100&scale=9&suffix=/9)
+- Chapter 26: Miscellaneous Library Functions ![image](https://progress-bar.xyz/0/?width=100&scale=19&suffix=/19)
+- Chapter 27: Additional C99 Support for Mathematics ![image](https://progress-bar.xyz/0/?width=100&scale=8&suffix=/8)
 
 ---
 
@@ -80,6 +85,67 @@ This project represents my wonderful learning experience and how I was so patien
 - Programming Project 11
 - Programming Project 12
 - Programming Project 13
+
+### Chapter 22: Input Output
+
+- Exercises (16 questions)
+- Programming Project 1
+- Programming Project 2
+- Programming Project 3
+- Programming Project 4
+- Programming Project 5
+- Programming Project 6
+- Programming Project 7
+- Programming Project 8
+- Programming Project 10
+- Programming Project 11
+- Programming Project 12
+- Programming Project 13
+- Programming Project 14
+- Programming Project 15
+- Programming Project 16
+- Programming Project 17
+- Programming Project 18
+- Programming Project 19
+
+### Chapter 23: Library Support for Numbers and Character Data
+
+- Exercises (13 questions)
+- Programming Project 1
+- Programming Project 2
+- Programming Project 3
+- Programming Project 4
+- Programming Project 5
+- Programming Project 6
+- Programming Project 7
+
+### Chapter 24: Error Handling
+
+- Exercises (5 questions)
+
+### Chapter 25: International Features
+
+- Exercises (7 questions)
+- Programming Project 1
+- Programming Project 2
+
+### Chapter 26: Miscellaneous Library Functions
+
+- Exercises (13 questions)
+- Programming Project 1
+- Programming Project 2
+- Programming Project 3
+- Programming Project 4
+- Programming Project 5
+- Programming Project 6
+
+### Chapter 27: Additional C99 Support for Mathematics
+
+- Exercises (4 questions)
+- Programming Project 1
+- Programming Project 2
+- Programming Project 3
+- Programming Project 4
 
 ---
 
