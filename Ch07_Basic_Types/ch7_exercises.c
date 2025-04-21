@@ -41,7 +41,7 @@
  *
  * b) short float -> Illegal
  *
- * c) long double -> Legal (in C99)
+ * c) long double -> Legal
  *
  * d) unsigned long -> Legal
  *
@@ -57,7 +57,8 @@
  *
  * c) Legal
  *
- * d) Illegal -> As printf is used to print the formatted string
+ * d) Illegal -> As printf is used to print the formatted string, passed as
+ * its first argument
  *
  */
 
@@ -153,7 +154,7 @@
 /**
  * int * float / double
  *
- * = float * float / double --> Implicit cast (from int to float)
+ * = float * float / double --> Type conversion (from int to float)
  *
  * = float / double
  *
@@ -181,7 +182,7 @@
 
 // Q13
 /**
- * char c = '\1'l
+ * char c = '\1';
  * short s = 2;
  * int i = -3
  * long m = 5;
