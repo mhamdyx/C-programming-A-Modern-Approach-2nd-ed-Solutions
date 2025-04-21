@@ -17,22 +17,26 @@ int main(void)
 
 	printf("Enter a sentence: ");
 
+	while ((input_ch = getchar()) == ' '); // skip leading whitespaces
+	word_len++; // first word found
+
 	while((input_ch = getchar()) != '\n')
 	{
-		if(input_ch == ' ')
+		if(input_ch != ' ') // calculating word length
+			word_len++;
+		else if(word_len != 0) // count all mid spaces as one space only
 		{
 			total_len += word_len;
 			word_count++;
 			word_len = 0;
 		}
-		else
-		{
-			word_len++;
-		}
 	}
 
-	word_count++;
-	total_len += word_len;
+	if (word_len != 0) // detect last word and disregard spaces at the end
+	{
+		word_count++;
+		total_len += word_len;
+	}
 
 	avg = ((float) total_len) / word_count;
 	printf("Average word length: %.1f\n", avg);
