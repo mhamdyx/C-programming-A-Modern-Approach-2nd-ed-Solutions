@@ -8,14 +8,16 @@
 // Programming Project 15: Caesar Cipher
 
 #include <stdio.h>
+#define MAX_LEN 80
+
 int main(void)
 {
-	char input_ch, plain[80], cipher;
-	int msg_len = 0, key;
+	char input_ch, plain[MAX_LEN], cipher;
+	int msg_len = 0, key, i;
 
 	printf("Enter message to be encrypted: ");
 
-	while((input_ch = getchar()) != '\n')
+	while ((input_ch = getchar()) != '\n')
 	{
 		plain[msg_len++] = input_ch;
 	}
@@ -25,13 +27,13 @@ int main(void)
 
 	printf("Encrypted message: ");
 
-	for(int i = 0; i < msg_len; i++)
+	for (i = 0; i < msg_len; i++)
 	{
 		if(plain[i] >= 'A' && plain[i] <= 'Z')
 		{
 			cipher = ((plain[i] - 'A') + key) % 26 + 'A';
 		}
-		else if(plain[i] > 'Z' && plain[i] <= 'z')
+		else if(plain[i] >= 'a' && plain[i] <= 'z')
 		{
 			cipher = ((plain[i] - 'a') + key) % 26 + 'a';
 		}
@@ -40,9 +42,9 @@ int main(void)
 			cipher = plain[i];
 		}
 
-		printf("%c", cipher);
+		putchar(cipher);
 	}
-	printf("\n");
+	putchar('\n');
 
 	return 0;
 }
