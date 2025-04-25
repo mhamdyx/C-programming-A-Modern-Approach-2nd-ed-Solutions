@@ -5,46 +5,46 @@
  *      Author: Mahmoud Hamdy
  */
 
-// Programming Project 14: Reverse words in a sentence
+// Programming Project 14: Reverse words in a sentence (New implementation)
 
 #include <stdio.h>
-#define LEN 100
+#define MAX_LEN 100
+
 int main(void)
 {
-	char sentence[LEN], input;
-	int sent_len = 0, word_begin, word_end;
+	char sentence[MAX_LEN], terminating_ch, input_ch;
+	int len = 0, word_start, word_end;
 
 	printf("Enter a sentence: ");
-
-	input = getchar();
-	while(input != '!' &&  input != '?' && input != '.' && sent_len < LEN)
+	while ((input_ch = getchar()) != '\n')
 	{
-		sentence[sent_len++] = input;
-		input = getchar();
+		if (input_ch == '.' || input_ch == '?' || input_ch == '!')
+		{
+			terminating_ch = input_ch;
+			break;
+		}
+		else
+			sentence[len++] = input_ch;
 	}
 
-	// Sentence Reversal
-	word_end = sent_len - 1;
-	word_begin = word_end;
-
-	while(word_begin > 0)
+	printf("Reversal of sentence: ");
+	for (word_start = len - 1; word_start > 0;)
 	{
-		while(sentence[word_begin] != ' ' && word_begin != 0) { word_begin--; }
+		while (sentence[word_start - 1] != ' ' && word_start > 0)
+			word_start--;
 
-		for(int i = (word_begin == 0) ? word_begin : word_begin + 1; i <= word_end; i++)
-		{
-			printf("%c", sentence[i]);
-		}
+		for (word_end = word_start; word_end < len && sentence[word_end] != ' '; word_end++)
+			putchar(sentence[word_end]);
 
-		if(word_begin != 0)
+		while (sentence[word_start - 1] == ' ' && word_start > 0)
 		{
-			printf("%c", sentence[word_begin]);
-			word_end = --word_begin; // Moving to the next word backwords
+			putchar(' ');
+			word_start--;
 		}
 	}
 
-	// Printing the terminal character
-	printf("%c", input);
+	putchar(terminating_ch);
+	putchar('\n');
 
 	return 0;
 }
