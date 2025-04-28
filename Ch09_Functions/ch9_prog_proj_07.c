@@ -5,6 +5,9 @@
  *      Author: Mahmoud Hamdy
  */
 
+
+// Programming Project 7: Power Function
+
 #include <stdio.h>
 
 int power(int x, int n);
@@ -22,24 +25,22 @@ int main(void)
 	scanf("%d", &n);
 
 	// Printing output
-	printf("%d to the power %d(%d^%d) = %d", x, n, x, n, power(x, n));
+	printf("%d to the power %d (or %d^%d) = %d", x, n, x, n, power(x, n));
 
 	return 0;
 }
 
 int power(int x, int n)
 {
+	int p;
+
 	if(n == 0)
-	{
 		return 1;
-	}
 	else if(n % 2 == 0)
 	{
-
-		return power(x, n / 2) * power(x, n / 2);
+		p = power(x, n / 2);
+		return p * p;
 	}
 	else
-	{
 		return x * power(x, n - 1);
-	}
 }
