@@ -22,7 +22,6 @@ int main(void)
 	printf("This program creates a magic square of a specified size\n");
 	printf("The size must be an odd number between 1 and 99\n");
 	printf("Enter size of magic square: ");
-	fflush(stdout);
 	scanf("%d", &n);
 
 	// Alternative way to build the magic square in C99
