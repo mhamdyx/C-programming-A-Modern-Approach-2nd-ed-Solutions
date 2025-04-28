@@ -32,7 +32,7 @@ double triangle_area(double base, double height)
 /*
 int check(int x, int y, int n)
 {
-	if(x >= 0 && x <= n && y >= 0 && y <= n)
+	if(x >= 0 && x <= n - 1 && y >= 0 && y <= n - 1)
 		return 1;
 
 	return 0;
@@ -63,16 +63,45 @@ int main(void)
 //-----------------------------------------
 
 // Q3
+// Solution 1: Using Euclid's algorithm (based on Ch6/PP2)
 /*
 int gcd(int m, int n)
 {
-	if(n <= 1)
+    int remainder;
+
+    // As long as n != 0, m != gcd
+	while (n != 0)
+	{
+		// GCD - Euclid's algorithm:
+		// 1) Compute the remainder of m / n
+		remainder = m % n;
+
+		// 2) Copy n into m
+		m = n;
+
+		// 3) Copy remainder into n
+		n = remainder;
+
+		// 4) Repeat the process...
+	}
+
+    return m;
+}
+*/
+
+// Solution 2: Using recursion
+/*
+int gcd(int m, int n)
+{
+	if (n <= 1)
 		return m;
 
 	return gcd(n, m % n);
 }
+*/
 
 // test script
+/*
 #include <stdio.h>
 
 int main(void)
@@ -100,23 +129,17 @@ int day_of_year(int month, int day, int year)
 	int days_per_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 	// from days
-	int total = day;
+	int i, total = day;
 
 	// from months
 	// (excluding the current month as its days are already counted)
-	for(int i = 0; i < month - 1; i++)
-	{
+	for (i = 0; i < month - 1; i++)
 		total += days_per_month[i];
-	}
 
 	// detecting leap year
-	if(month > 2)
-	{
-		if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
-		{
+	if (month > 2)
+		if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
 			total += 1;
-		}
-	}
 
 	return total;
 }
@@ -152,16 +175,11 @@ int num_digits(unsigned int n)
 {
 	int digits_count = 0;
 
-	if(n == 0)
+	do
 	{
-		return 1;
-	}
-
-	while(n > 0)
-	{
-		n /= 10;
 		digits_count++;
-	}
+		n /= 10;
+	} while (n > 0);
 
 	return digits_count;
 }
@@ -188,19 +206,15 @@ int main(void)
 /*
 int digit(unsigned int n, int k)
 {
-	int step_count = 0, rem;
+	int i;
 
-	if(sizeof(unsigned int) * 8 < k)
+	if (sizeof(n) * 8 < k)
 		return 0;
 
-	while(step_count < k)
-	{
-		rem = n % 10;
+	for (i = 1; i < k; i++)
 		n /= 10;
-		step_count++;
-	}
 
-	return rem;
+	return n % 10;
 }
 
 // test script
@@ -243,11 +257,11 @@ int main(void)
 
 // Q8
 
-// (a) void f(double x); ---> valid
-// (b) void f(double);   ---> valid and used for good documentation
+// (a) void f(double x); ---> valid and used for good documentation
+// (b) void f(double);   ---> valid
 // (c) void f(x);        ---> invalid
 // (d) f(double x);      ---> In C99, it's invalid but
-//                            in C98, it's presumed to return an int
+//                            in C98, it's valid and presumed to return an int
 
 
 //---------------------------------
@@ -265,40 +279,34 @@ int main(void)
 // (a) largest element of a
 int largest_element(int a[], int n)
 {
-	int max_element = a[0];
+	int i, largest = a[0];
 
-	for(int i = 1; i < n; i++)
-	{
-		if(a[i] > max_element)
-			max_element = a[i];
-	}
+	for (i = 1; i < n; i++)
+		if (a[i] > largest)
+			largest = a[i];
 
-	return max_element;
+	return largest;
 }
 
 // (b) average of all elements in a
-int avg_element(int a[], int n)
+float avg_element(int a[], int n)
 {
-	int sum = 0;
+	int i, sum = 0;
 
-	for(int i = 0; i < n; i++)
-	{
+	for (i = 0; i < n; i++)
 		sum += a[i];
-	}
 
-	return sum / n;
+	return (float) sum / n;
 }
 
 // (c) number of positive elements in a
 int num_positive_element(int a[], int n)
 {
-	int pos_count = 0;
+	int i, pos_count = 0;
 
-	for(int i = 0; i < n; i++)
-	{
-		if(a[i] > 0)
+	for (i = 0; i < n; i++)
+		if (a[i] > 0)
 			pos_count++;
-	}
 
 	return pos_count;
 }
@@ -312,7 +320,7 @@ int main(void)
 
 	printf("Largest element in a = %d\n", largest_element(a, 8));
 
-	printf("Average element in a = %d\n", avg_element(a, 8));
+	printf("Average element in a = %.2f\n", avg_element(a, 8));
 
 	printf("Number of positive elements in a = %d\n", num_positive_element(a,8));
 
@@ -327,27 +335,20 @@ int main(void)
 float compute_GPA(char grades[], int n)
 {
 	float total_grade = 0.0f;
-	for(int i = 0; i < n; i++)
+	int i;
+
+	for(i = 0; i < n; i++)
 	{
-		if(grades[i] == 'A' || grades[i] == 'a')
+		switch(grades[i])
 		{
-			total_grade += 4.0f;
-		}
-		else if(grades[i] == 'B' || grades[i] == 'b')
-		{
-			total_grade += 3.0f;
-		}
-		else if(grades[i] == 'C' || grades[i] == 'c')
-		{
-			total_grade += 2.0f;
-		}
-		else if(grades[i] == 'D' || grades[i] == 'd')
-		{
-			total_grade += 1.0f;
+		case 'A': case 'a': total_grade += 4.0f; break;
+		case 'B': case 'b': total_grade += 3.0f; break;
+		case 'C': case 'c': total_grade += 2.0f; break;
+		case 'D': case 'd': total_grade += 1.0f; break;
 		}
 	}
 
-	return (total_grade / n);
+	return total_grade / n;
 }
 
 // test script
@@ -355,21 +356,20 @@ float compute_GPA(char grades[], int n)
 
 int main(void)
 {
-	int n;
+	int i, n;
+
 	printf("Enter the number of grades: ");
 	scanf("%d", &n);
 
 	char x_grades[n];
 
-	for(int i = 0; i < n; i++)
+	for(i = 0; i < n; i++)
 	{
 		printf("Enter grade number %d: ", i + 1);
-		(stdout);
-		scanf("%c", &x_grades[i]);
-
+		scanf(" %c", &x_grades[i]);
 	}
 
-	printf("Average  grade of x = %f", compute_GPA(x_grades, n));
+	printf("Average  grade of x = %.2f", compute_GPA(x_grades, n));
 
 	return 0;
 }
@@ -382,10 +382,9 @@ int main(void)
 double inner_product(double a[], double b[], int n)
 {
 	double total = 0.0;
-	for(int i = 0; i < n; i++)
-	{
-		total += a[i] * b [i];
-	}
+	int i;
+	for (i = 0; i < n; i++)
+		total += (a[i] * b [i]);
 
 	return total;
 }
@@ -395,14 +394,14 @@ double inner_product(double a[], double b[], int n)
 
 int main(void)
 {
-	int n;
+	int i, n;
 
 	printf("Enter the arrays length: ");
 	scanf("%d", &n);
 
 	double a[n], b[n];
 
-	for(int i = 0; i < n; i++)
+	for (i = 0; i < n; i++)
 	{
 		printf("Enter element %d in a: ", i + 1);
 		scanf("%lf", &a[i]);
@@ -411,7 +410,7 @@ int main(void)
 		scanf("%lf", &b[i]);
 	}
 
-	printf("Inner product of a & b is: %lf", inner_product(a, b, n));
+	printf("Inner product of a & b is: %.2f", inner_product(a, b, n));
 
 	return 0;
 }
@@ -423,58 +422,29 @@ int main(void)
 /*
 int evaluate_position(char board[8][8])
 {
-	int white_weight = 0, black_weight = 0;
+	int i, j, white_weight = 0, black_weight = 0;
 
-	for(int i = 0; i < 8; i++)
+	for (i = 0; i < 8; i++)
 	{
-		for(int j = 0; j < 8; j++)
+		for (j = 0; j < 8; j++)
 		{
-			switch(board[i][j])
+			switch (board[i][j])
 			{
-				case 'Q':
-					white_weight += 9;
-					break;
-
-				case 'R':
-					white_weight += 5;
-					break;
-
-				case 'B':
-					white_weight += 3;
-					break;
-
-				case 'N':
-					white_weight += 3;
-					break;
-
-				case 'P':
-					white_weight += 1;
-					break;
-
-				case 'q':
-					black_weight += 9;
-					break;
-
-				case 'r':
-					black_weight += 5;
-					break;
-
-				case 'b':
-					black_weight += 3;
-					break;
-
-				case 'n':
-					black_weight += 3;
-					break;
-
-				case 'p':
-					black_weight += 1;
-					break;
+			case 'Q': white_weight += 9; break;
+			case 'R': white_weight += 5; break;
+			case 'B': white_weight += 3; break;
+			case 'N': white_weight += 3; break;
+			case 'P': white_weight += 1; break;
+			case 'q': black_weight += 9; break;
+			case 'r': black_weight += 5; break;
+			case 'b': black_weight += 3; break;
+			case 'n': black_weight += 3; break;
+			case 'p': black_weight += 1; break;
 			}
 		}
 	}
 
-	return (white_weight - black_weight);
+	return white_weight - black_weight;
 }
 */
 
@@ -487,11 +457,11 @@ int evaluate_position(char board[8][8])
 
 bool has_zero(int a[], int n)
 {
-	for(int i = 0; i < n; i++)
-	{
-		if(a[i] == 0)
+	int i;
+	
+	for (i = 0; i < n; i++)
+		if (a[i] == 0)
 			return true;
-	}
 
 	return false;
 }
@@ -501,14 +471,14 @@ bool has_zero(int a[], int n)
 
 int main(void)
 {
-	int n;
+	int i, n;
 
 	printf("Enter n: ");
 	scanf("%d", &n);
 
 	int a[n];
 
-	for(int i = 0; i < n; i++)
+	for (i = 0; i < n; i++)
 	{
 		printf("a[%d] = ", i);
 		scanf("%d", &a[i]);
@@ -530,22 +500,22 @@ int main(void)
 // Correct Implementation
 double median(double x, double y, double z)
 {
-	double median_val;
+	double median;
 
-	if((x <= y && x >= z) || (x <= z && x >= y))
+	if (x <= y)
 	{
-		median_val = x;
-	}
-	else if((y <= x && y >= z) || (y <= z && y >= x))
-	{
-		median_val = y;
+		if (y <= z) median = y;
+		else if (x <= z) median = z;
+		else median = x;
 	}
 	else
 	{
-		median_val = z;
+		if (z <= y) median = y;
+		else if (x <= z) median = x;
+		else median = z;
 	}
 
-	return median_val;
+	return median;
 }
 
 // test script
@@ -564,7 +534,7 @@ int main(void)
 	printf("Enter z: ");
 	scanf("%lf", &z);
 
-	printf("The median of %lf, %lf, %lf = %lf", x, y, z, median(x, y, z));
+	printf("The median of %g, %g, %g = %g", x, y, z, median(x, y, z));
 
 	return 0;
 }
@@ -574,10 +544,12 @@ int main(void)
 
 // Q16
 // Condensed fact
+/*
 int fact(int n)
 {
 	return (n <= 1) ? 1 : n * fact(n - 1);
 }
+*/
 
 //---------------------------------
 
@@ -586,12 +558,9 @@ int fact(int n)
 // No recursive fact
 int fact(int n)
 {
-	int result = 1;
-	while(n > 1)
-	{
+	int result = n;
+	while (--n > 1)
 		result *= n;
-		n -= 1;
-	}
 
 	return result;
 }
@@ -603,7 +572,7 @@ int fact(int n)
 /*
 int gcd(int m, int n)
 {
-	if(n == 0) //As specified by the exercise but could be n <= 1 instead.
+	if (n == 0) //As specified by the exercise but could be n <= 1 instead.
 		return m;
 
 	return gcd(n, m % n);
@@ -618,7 +587,7 @@ int gcd(int m, int n)
 #include <stdio.h>
 void pb(int n)
 {
-	if(n != 0)
+	if (n != 0)
 	{
 		pb(n / 2);
 		putchar('0' + n % 2);
