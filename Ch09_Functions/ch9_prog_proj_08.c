@@ -25,7 +25,7 @@ int main(void)
 	// Game Data
 	bool game_outcome;
 	int win_count = 0, loss_count = 0;
-	char input_key = 0;
+	char input_key;
 
 	do
 	{
@@ -44,9 +44,7 @@ int main(void)
 		}
 
 		printf("Play again? ");
-		fflush(stdout);
-		input_key = getchar();
-		fflush(stdin);
+		scanf(" %c", &input_key);
 
 	}while(input_key == 'y' || input_key == 'Y');
 
@@ -69,33 +67,24 @@ int roll_dice(void)
 bool play_game(void)
 {
 	bool outcome;
-	int point = 0, roll;
+	int roll, point = 0; // Stays 0 unless we get a point
 
 	// First roll
 	roll = roll_dice();
+	printf("You rolled: %d\n", roll);
 
 	if(roll == 7 || roll == 11)
-	{
 		outcome = WIN;
-	}
 	else if(roll == 2 || roll == 3 || roll == 12)
-	{
 		outcome = LOSS;
-	}
 	else
 	{
 		point = roll;
-	}
-
-	printf("You rolled: %d\n", roll);
-
-	if(point)
-	{
 		printf("You point is %d\n", point);
 	}
 
-	// Another roll (if exists)
-	while(point != 0)
+	// Subsequent rolls (if applicable)
+	while(point)
 	{
 		roll = roll_dice();
 		printf("You rolled: %d\n", roll);
