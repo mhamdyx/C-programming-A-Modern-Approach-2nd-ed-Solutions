@@ -13,7 +13,7 @@ void selection_sort(int a[], int n);
 
 int main(void)
 {
-	int n;
+	int i, n;
 
 	printf("Enter the number of integers to be entered: ");
 	scanf("%d", &n);
@@ -22,19 +22,17 @@ int main(void)
 
 	printf("Enter the list of numbers: ");
 
-	for(int i = 0; i < n; i++)
-	{
+	for (i = 0; i < n; i++)
 		scanf("%d", &a[i]);
-	}
 
 	selection_sort(a, n);
 
-	printf("Array after sorting: ");
+	printf("Array after sorting:");
 
-	for(int i = 0; i < n; i++)
-	{
-		printf("%d ", a[i]);
-	}
+	for (i = 0; i < n; i++)
+		printf(" %d", a[i]);
+
+	putchar('\n');
 
 	return 0;
 }
@@ -42,22 +40,24 @@ int main(void)
 
 void selection_sort(int a[], int n)
 {
-	if(n == 1)
+	int i, largest_val, largest_i;
+
+	if (n == 1)
 		return;
 
-	int max_element_value = a[0], max_element_index = 0;
-	for(int i = 1; i < n; i++)
+	largest_val = a[0], largest_i = 0;
+	for (i = 1; i < n; i++)
 	{
-		if(a[i] > max_element_value)
+		if (a[i] > largest_val)
 		{
-			max_element_value = a[i];
-			max_element_index = i;
+			largest_val = a[i];
+			largest_i = i;
 		}
 	}
 
 	// Moving to last position
-	a[max_element_index] = a[n - 1];
-	a[n - 1] = max_element_value;
+	a[largest_i] = a[n - 1];
+	a[n - 1] = largest_val;
 
 	selection_sort(a, n - 1);
 }
