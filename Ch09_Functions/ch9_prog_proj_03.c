@@ -11,10 +11,13 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#define NUM_ROWS 10
+#define NUM_COLS 10
 #define UP    0
 #define DOWN  1
 #define LEFT  2
 #define RIGHT 3
+#define FIRST_MOVE 'A'
 #define LAST_MOVE 'Z'
 #define VALID_MOVE true
 #define INVALID_MOVE false
@@ -24,114 +27,132 @@ void print_array(char walk[10][10]);
 
 int main(void)
 {
-	// Initialize array
-	char walk[10][10];
+	char arr[NUM_ROWS][NUM_COLS];
+	int row, col;
 
-	for(int i = 0; i < 10; i++)
-	{
-		for(int j = 0; j < 10; j++)
-		{
-			walk[i][j] = '.';
-		}
-	}
+	// Initialize the array
+	for (row = 0; row < NUM_ROWS; row++)
+		for (col = 0; col < NUM_COLS; col++)
+			arr[row][col] = '.';
 
 	// Random walk algorithm
-	generate_random_walk(walk);
+	generate_random_walk(arr);
 
-	// Printing the walk
-	print_array(walk);
+	// Print the random walk
+	print_array(arr);
+
+	putchar('\n');
 
 	return 0;
 }
 
+
 void generate_random_walk(char walk[10][10])
 {
-	// Position Neighbours
-	bool neighbour[4] = {INVALID_MOVE};
+	char move = FIRST_MOVE;
+	int row, col, direction;
+	bool move_made = false, neighbor[4] = {INVALID_MOVE};
 
-	// Set the seed of time
-	srand((unsigned) time(NULL)); // NULL or 0
+	// Prepare for random generation
+	srand((unsigned) time(NULL));
 
-	// Initial move
-	int direction, x_pos = 0, y_pos = 0;
-	char move = 'A';
-	walk[x_pos][y_pos] = move++;
+	// First move is at 0,0
+	row = 0;
+	col = 0;
+	walk[row][col] = move++;
 
-	while(move <= LAST_MOVE)
+	while (move <= LAST_MOVE)
 	{
-		if(x_pos - 1 >= 0 && walk[x_pos - 1][y_pos] == '.')
+		// Check movement bounds
+		if (row == 0)
+			neighbor[UP] = INVALID_MOVE;
+		else
+			neighbor[UP] = VALID_MOVE;
+
+		if (col == 0)
+			neighbor[LEFT] = INVALID_MOVE;
+		else
+			neighbor[LEFT] = VALID_MOVE;
+
+		if (row == NUM_ROWS - 1)
+			neighbor[DOWN] = INVALID_MOVE;
+		else
+			neighbor[DOWN] = VALID_MOVE;
+
+		if (col == NUM_COLS - 1)
+			neighbor[RIGHT] = INVALID_MOVE;
+		else
+			neighbor[RIGHT] = VALID_MOVE;
+
+
+		while (!move_made)
 		{
-			neighbour[UP] = VALID_MOVE;
-		}
+			// Choose a random direction
+			direction = rand() % 4;
 
-		if(x_pos + 1 <= 9 && walk[x_pos + 1][y_pos] == '.')
-		{
-			neighbour[DOWN] = VALID_MOVE;
-		}
-
-		if(y_pos - 1 >= 0 && walk[x_pos][y_pos - 1] == '.')
-		{
-			neighbour[LEFT] = VALID_MOVE;
-		}
-
-		if(y_pos + 1 <= 9 && walk[x_pos][y_pos + 1] == '.')
-		{
-			neighbour[RIGHT] = VALID_MOVE;
-		}
-
-		// Detecting closed loop (stopping condition)
-		if(!neighbour[UP] && !neighbour[DOWN] && !neighbour[LEFT] && !neighbour[RIGHT])
-			break;
-
-		// Randomly generated direction
-		direction = rand() % 4;
-
-		switch(direction)
-		{
+			switch (direction)
+			{
 			case UP:
-				if(neighbour[UP] == VALID_MOVE)
-				{
-					walk[--x_pos][y_pos] = move++;
-				}
-				break;
-
-			case DOWN:
-				if(neighbour[DOWN] == VALID_MOVE)
-				{
-					walk[++x_pos][y_pos] = move++;
-				}
+				if (neighbor[UP] == VALID_MOVE && walk[row - 1][col] == '.')
+					walk[--row][col] = move;
+				else
+					neighbor[UP] = INVALID_MOVE;
 				break;
 
 			case LEFT:
-				if(neighbour[LEFT] == VALID_MOVE)
-				{
-					walk[x_pos][--y_pos] = move++;
-				}
+				if (neighbor[LEFT] == VALID_MOVE && walk[row][col - 1] == '.')
+					walk[row][--col] = move;
+				else
+					neighbor[LEFT] = INVALID_MOVE;
+				break;
+
+			case DOWN:
+				if (neighbor[DOWN] == VALID_MOVE && walk[row + 1][col] == '.')
+					walk[++row][col] = move;
+				else
+					neighbor[DOWN] = INVALID_MOVE;
 				break;
 
 			case RIGHT:
-				if(neighbour[RIGHT] == VALID_MOVE)
-				{
-					walk[x_pos][++y_pos] = move++;
-				}
+				if (neighbor[RIGHT] == VALID_MOVE && walk[row][col + 1] == '.')
+					walk[row][++col] = move;
+				else
+					neighbor[RIGHT] = INVALID_MOVE;
 				break;
+			}
+
+			// Check if all directions are blocked to terminate
+			if (!neighbor[UP] && !neighbor[LEFT] && !neighbor[DOWN] && !neighbor[RIGHT])
+				break;
+
+			// Check if a move was made (because it was valid)
+			if (neighbor[direction] == VALID_MOVE)
+				move_made = true;
 		}
 
-		neighbour[UP] = INVALID_MOVE;
-		neighbour[DOWN] = INVALID_MOVE;
-		neighbour[LEFT] = INVALID_MOVE;
-		neighbour[RIGHT] = INVALID_MOVE;
+		// Check if we need to terminate because of a block
+		if (!move_made)
+			break;
+
+		// Increment move
+		move++;
+
+		// Reset movement flag
+		move_made = false;
 	}
+
 }
 
 void print_array(char walk[10][10])
 {
-	for(int i = 0; i < 10; i++)
+	int row, col;
+	for (row = 0; row < 10; row++)
 	{
-		for(int j = 0; j < 10; j++)
+		for (col = 0; col < 10; col++)
 		{
-			printf("%c ", walk[i][j]);
+			putchar(walk[row][col]);
+			putchar(' ');
 		}
-		printf("\n");
+		putchar('\n');
 	}
 }
