@@ -19,7 +19,7 @@ int main(void)
 	// Input char
 	char c;
 
-	// Array to detect anograms
+	// Array to detect anagrams
 	int anagrams[26] = {0};
 
 	// Reading the first word
