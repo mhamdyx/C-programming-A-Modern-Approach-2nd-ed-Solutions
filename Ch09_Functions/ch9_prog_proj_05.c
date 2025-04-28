@@ -5,7 +5,7 @@
  *      Author: Mahmoud Hamdy
  */
 
-// Programming Project 5: Magic square
+// Programming Project 5: Magic square (New implementation)
 
 #include <stdio.h>
 
@@ -14,15 +14,15 @@ void print_magic_square(int n, char magic_square[n][n]);
 
 int main(void)
 {
-	// Magic square data
 	int n;
-	char magic_square[n][n];
 
 	// Reading the magic number
 	printf("This program creates a magic square of a specified size\n");
 	printf("The size must be an odd number between 1 and 99\n");
 	printf("Enter size of magic square: ");
 	scanf("%d", &n);
+
+	char magic_square[n][n];
 
 	// Building the magic square
 	create_magic_square(n, magic_square);
@@ -35,59 +35,41 @@ int main(void)
 
 void create_magic_square(int n, char magic_square[n][n])
 {
-	for(int i = 0; i < n; i++)
+	int row, col, number = 1, square_size;
+
+	for(row = 0; row < n; row++)
+		for(col = 0; col < n; col++)
+			magic_square[row][col] = 0;
+
+	row = 0, col = n / 2, square_size = n * n;
+
+	magic_square[row][col] = number;
+
+
+	for (number = 2; number <= square_size; number++)
 	{
-		for(int j = 0; j < n; j++)
+		if (magic_square[(row - 1 + n) % n][(col + 1) % n] == 0)
 		{
-			magic_square[i][j] = 0;
-		}
-	}
-
-	int x_pos = 0, y_pos = n / 2, square_size = n * n;
-
-	magic_square[x_pos][y_pos] = 1;
-
-
-	for(int i = 1; i < square_size; i++)
-	{
-		if(magic_square[(x_pos - 1 + n) % n][(y_pos + 1) % n] == 0)
-		{
-			x_pos = (x_pos - 1 + n) % n;
-			y_pos = (y_pos + 1) % n;
-			magic_square[x_pos][y_pos] = i + 1;
+			row = (row - 1 + n) % n;
+			col = (col + 1) % n;
 		}
 		else
-		{
-			x_pos++;
-			magic_square[x_pos][y_pos] = i + 1;
-		}
+			row++;
+
+		magic_square[row][col] = number;
 	}
+
 }
 
 void print_magic_square(int n, char magic_square[n][n])
 {
-	// Padding output
-	int padding_len = 1;
-	int multiplier = 10;
-	int square_size = n * n;
-	for(int i = 0; i < 10; i++)
-	{
-		if((square_size / multiplier)  == 0)
-		{
-			break;
-		}
-		padding_len++;
-		multiplier *= 10;
+	int row, col;
 
-	}
-
-	// Printing
-	for(int i = 0; i < n; i++)
+	for (row = 0; row < n; row++)
 	{
-		for(int j = 0; j < n; j++)
-		{
-			printf("%0*d   ", padding_len, magic_square[i][j]);
-		}
-		printf("\n");
+		for (col = 0; col < n; col++)
+			printf("%5d", magic_square[row][col]);
+
+		putchar('\n');
 	}
 }
