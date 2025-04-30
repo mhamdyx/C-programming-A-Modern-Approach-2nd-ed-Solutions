@@ -74,9 +74,7 @@ int main(void)
 			num_count++;
 		}
 		else if(num == '\n')
-		{
 			break;
-		}
 	}
 
 	// Printing digits array
@@ -87,42 +85,35 @@ int main(void)
 
 void clear_digits_array(void)
 {
-	int digits_width = MAX_DIGITS * 4;
+	int i, j, digits_width = MAX_DIGITS * 4;
 
-	for(int i = 0; i < 4; i++)
-	{
-		for(int j = 0; j < digits_width; j++)
-		{
+	for(i = 0; i < 4; i++)
+		for(j = 0; j < digits_width; j++)
 			digits[i][j] = ' ';
-		}
-	}
 }
 
 void process_digit(int digit, int position)
 {
-	int row, col;
-	for(int seg = 0; seg <= 6; seg++)
+	int seg, row, col;
+	for(seg = 0; seg <= 6; seg++)
 	{
 		row = segment_coordinates[seg][0];
 		col = segment_coordinates[seg][1];
 
 		if(segments[digit][seg])
-		{
 			digits[row][position * 4 + col] = (seg % 3 == 0) ? '_' : '|';
-		}
 	}
 }
 
 void print_digits_array(void)
 {
-	int digits_width = MAX_DIGITS * 4;
+	int row, col, digits_width = MAX_DIGITS * 4;
 
-	for(int row = 0; row < 4; row++)
+	for(row = 0; row < 4; row++)
 	{
-		for(int col = 0; col < digits_width; col++)
-		{
+		for(col = 0; col < digits_width; col++)
 			printf("%c", digits[row][col]);
-		}
+
 		printf("\n");
 	}
 }
