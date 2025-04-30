@@ -12,7 +12,7 @@
  *  Parameters: b (local)
  *
  *  b) The g function
- *  Variables : a (external), d (local), e (local to where it's declared only)
+ *  Variables : a (external), d (local)
  *  Parameters: -
  *
  *  c) The block in which e is declared
@@ -51,8 +51,8 @@
 
 /*
  * Given enough memory, there is no limit to the number of blocks
- * that can be defined in the main function hence no limit to the
- * number of i's.
+ * that can be defined in the main function that hence no limit to the
+ * number of i's that can be created in these blocks (one per block).
  *
  * However, it's certain that there can be one external variable &
  * one local variable to the main function scope.
