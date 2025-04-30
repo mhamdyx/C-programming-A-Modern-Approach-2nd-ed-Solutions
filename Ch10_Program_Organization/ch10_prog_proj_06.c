@@ -27,19 +27,15 @@ void stack_underflow(void);
 
 int main(void)
 {
-	int ch, op1 = 0, op2 = 0, result = 0;
+	char ch;
+	int op1 = 0, op2 = 0, result = 0;
 
 	printf("Enter an RPN expression: ");
-
 	while(1)
 	{
-		ch = getchar();
+		scanf(" %c", &ch);
 
-		if(ch == ' ')
-		{
-			continue;
-		}
-		else if(ch >= '0' && ch <= '9')
+		if(ch >= '0' && ch <= '9')
 		{
 			push(ch - '0');
 		}
@@ -75,19 +71,11 @@ int main(void)
 		{
 			result = pop();
 			printf("Value of expression: %d\n", result);
-		}
-		else if(ch == '\n')
-		{
-			make_empty(s); // In case of omitting '=' and result remains in the stack
 			result = 0;
-			op1 = 0; 
-			op2 = 0;
 			printf("Enter an RPN expression: ");
 		}
 		else
-		{
 			break;
-		}
 	}
 
 	return 0;
@@ -111,21 +99,15 @@ bool is_full(void)
 void push(int i)
 {
 	if(is_full())
-	{
 		stack_overflow();
-	}
 	else
-	{
 		contents[top++] = i;
-	}
 }
 
 int pop(void)
 {
 	if(is_empty())
-	{
 		stack_underflow();
-	}
 
 	return contents[--top];
 }
