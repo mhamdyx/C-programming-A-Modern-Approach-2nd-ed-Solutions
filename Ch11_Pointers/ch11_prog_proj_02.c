@@ -8,20 +8,18 @@
 // Programming Project 2: Daily Flights
 
 #include <stdio.h>
-#include <math.h>
 
 void find_closest_flight(int desired_time, int *departure_time, int *arrival_time);
 int from_24_hr_time_to_mins(int hours, int minutes);
 int from_12_hr_time_to_mins(int hours, int minutes, char meridiem);
 void from_mins_to_24_hr_time(int total_minutes, int *hours, int *minutes);
-void from_24_to_12_hr_time(int *hours, int *minutess, char *meridiem);
+void from_24_to_12_hr_time(int *hours, char *meridiem);
 
 int main(void)
 {
 	int desired_time, departure_time, arrival_time;
 	int hh_desired, mm_desired, hh_dep, mm_dep, hh_arrive, mm_arrive;
 	char dep_meridiem, arrive_meridiem;
-
 
 	printf("Enter a 24-hour time: ");
 	scanf("%d:%d", &hh_desired, &mm_desired);
@@ -34,11 +32,11 @@ int main(void)
 
 	// Getting the nearest departure time back to its original format
 	from_mins_to_24_hr_time(departure_time, &hh_dep, &mm_dep);
-	from_24_to_12_hr_time(&hh_dep, &mm_dep, &dep_meridiem);
+	from_24_to_12_hr_time(&hh_dep, &dep_meridiem);
 
 	// Getting the nearest arrival time back to its original format
 	from_mins_to_24_hr_time(arrival_time, &hh_arrive, &mm_arrive);
-	from_24_to_12_hr_time(&hh_arrive, &mm_arrive, &arrive_meridiem);
+	from_24_to_12_hr_time(&hh_arrive, &arrive_meridiem);
 
 	printf("Closest departure time is %d:%.2d %c.m., ", hh_dep, mm_dep, dep_meridiem);
 	printf("arriving at %d:%.2d %c.m.", hh_arrive, mm_arrive, arrive_meridiem);
@@ -48,7 +46,7 @@ int main(void)
 
 void find_closest_flight(int desired_time, int *departure_time, int *arrival_time)
 {
-	int best_time_index = -1, time_range;
+	int i, best_time_index = -1, time_range;
 
 	// Computing time in terms of total minutes starting from 00:00
 	int dep_time[8] =
@@ -76,26 +74,22 @@ void find_closest_flight(int desired_time, int *departure_time, int *arrival_tim
 	};
 
 
-	for(int i = 0; i < 7; i++)
+	for (i = 0; i < 7; i++)
 	{
 		time_range = dep_time[i] + (dep_time[i + 1] - dep_time[i]) / 2;
-		if(desired_time > dep_time[i] && desired_time <= time_range)
+		if (desired_time > dep_time[i] && desired_time <= time_range)
 		{
 			best_time_index = i;
 			break;
 		}
 	}
 
-	if(best_time_index == -1)
+	if (best_time_index == -1)
 	{
-		if(desired_time <= 172) // 2:52 am --> (9:45 pm < 2:52 am < 8:00 am)
-		{
+		if (desired_time <= 172) // 2:52 am --> (9:45 pm < 2:52 am < 8:00 am)
 			best_time_index = 7;
-		}
 		else
-		{
 			best_time_index = 0;
-		}
 	}
 
 	*departure_time = dep_time[best_time_index];
@@ -109,14 +103,10 @@ int from_24_hr_time_to_mins(int hours, int minutes)
 
 int from_12_hr_time_to_mins(int hours, int minutes, char meridiem)
 {
-	if(hours == 12 && meridiem == 'a')
-	{
+	if (hours == 12 && meridiem == 'a')
 		hours = 0;
-	}
-	else if(hours < 12 && meridiem == 'p')
-	{
+	else if (hours < 12 && meridiem == 'p')
 		hours += 12;
-	}
 
 	return from_24_hr_time_to_mins(hours, minutes);
 }
@@ -127,22 +117,20 @@ void from_mins_to_24_hr_time(int total_minutes, int *hours, int *minutes)
 	*minutes = total_minutes % 60;
 }
 
-void from_24_to_12_hr_time(int *hours, int *minutess, char *meridiem)
+void from_24_to_12_hr_time(int *hours, char *meridiem)
 {
-	if(*hours == 0) // Midnight
+	if (*hours == 0) // Midnight
 	{
 		(*hours) += 12;
 		*meridiem = 'a';
 	}
-	else if(*hours >= 12)
+	else if (*hours >= 12)
 	{
-		if(*hours > 12)
+		if (*hours > 12)
 			(*hours) -= 12;
 
 		*meridiem = 'p';
 	}
 	else
-	{
 		*meridiem = 'a';
-	}
 }
