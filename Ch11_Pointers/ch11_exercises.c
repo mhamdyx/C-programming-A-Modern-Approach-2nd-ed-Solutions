@@ -47,13 +47,12 @@ void avg_sum(double a[], int n, double *avg, double *sum)
 int main(void)
 {
 	double a[5], sum_a, avg_a;
+	int i;
 
 	printf("Enter array elements: ");
 
-	for(int i = 0; i < 5; i++)
-	{
+	for(i = 0; i < 5; i++)
 		scanf("%lf", &a[i]);
-	}
 
 	avg_sum(a, 5, &avg_a, &sum_a);
 
@@ -134,10 +133,11 @@ int main(void)
 /*
 void find_two_largest(int a[], int n, int *largest, int *second_largest)
 {
+	int i;
 	*largest = a[0];
-	*second_largest = a[1];
+	*second_largest = a[1]; // or a[0]
 
-	for(int i = 1; i < n; i++)
+	for(i = 1; i < n; i++)
 	{
 		if(a[i] > *largest)
 		{
@@ -151,14 +151,12 @@ void find_two_largest(int a[], int n, int *largest, int *second_largest)
 #include <stdio.h>
 int main(void)
 {
-	int a[10], max_elem, second_max_elem;
+	int i, a[10], max_elem, second_max_elem;
 
 	printf("Enter array elements: ");
 
-	for(int i = 0; i < 10; i++)
-	{
+	for(i = 0; i < 10; i++)
 		scanf("%d", &a[i]);
-	}
 
 	// Finding the two largest elements
 	find_two_largest(a, 10, &max_elem, &second_max_elem);
@@ -175,31 +173,24 @@ int main(void)
 /*
 void split_date(int day_of_year, int year, int *month, int *day)
 {
-	int days_per_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	int i, days_per_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	*month = 1;
 
 	// Detecting if leap year
 	if(day_of_year > (31 + 28))
-	{
 		if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
-		{
 			days_per_month[1]++;
-		}
-	}
 
 	// Finding month
-	for(int i = 0; i < 12; i++)
+	for(i = 0; i < 12; i++)
 	{
 		if(day_of_year > days_per_month[i])
 		{
 			(*month)++;
 			day_of_year -= days_per_month[i];
-
 		}
 		else
-		{
 			break;
-		}
 	}
 
 	// Finding day
@@ -233,13 +224,11 @@ int main(void)
 /*
 int *find_largest(int a[], int n)
 {
-	int *max_elem = &a[0];
+	int i, *max_elem = &a[0];
 
-	for(int i = 1; i < n; i++)
-	{
+	for(i = 1; i < n; i++)
 		if(a[i] > *max_elem)
 			max_elem = &a[i];
-	}
 
 	return max_elem;
 }
@@ -248,14 +237,12 @@ int *find_largest(int a[], int n)
 #include <stdio.h>
 int main(void)
 {
-	int a[10], *largest_elem;
+	int i, a[10], *largest_elem;
 
 	printf("Enter elements of array a: ");
 
-	for(int i = 0; i < 10; i++)
-	{
+	for(i = 0; i < 10; i++)
 		scanf("%d", &a[i]);
-	}
 
 	largest_elem = find_largest(a, 10);
 
