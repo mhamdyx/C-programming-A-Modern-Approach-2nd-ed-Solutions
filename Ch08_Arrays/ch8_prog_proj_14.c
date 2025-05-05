@@ -12,17 +12,14 @@
 
 int main(void)
 {
-	char sentence[MAX_LEN], terminating_ch, input_ch;
+	char sentence[MAX_LEN], input_ch;
 	int len = 0, word_start, word_end;
 
 	printf("Enter a sentence: ");
 	while ((input_ch = getchar()) != '\n')
 	{
 		if (input_ch == '.' || input_ch == '?' || input_ch == '!')
-		{
-			terminating_ch = input_ch;
 			break;
-		}
 		else
 			sentence[len++] = input_ch;
 	}
@@ -43,7 +40,7 @@ int main(void)
 		}
 	}
 
-	putchar(terminating_ch);
+	putchar(input_ch); // Print the terminating character
 	putchar('\n');
 
 	return 0;
