@@ -14,12 +14,11 @@ void max_min(int a[], int n, int *max, int *min);
 
 int main(void)
 {
-	int b[N], *p, big, small;
+	int b[N], i, big, small;
 
 	printf("Enter %d numbers: ", N);
-
-	for(p = b; p < b + N; p++)
-		scanf("%d", p);
+	for (i = 0; i < N; i++)
+		scanf("%d", &b[i]);
 
 	max_min(b, N, &big, &small);
 
@@ -32,13 +31,13 @@ int main(void)
 void max_min(int a[], int n, int *max, int *min)
 {
 	int *p;
-	*max = *min = a[0];
+	*max = *min = *a;
 
-	for(p = a + 1; p < a + n; p++)
+	for (p = a + 1; p < a + n; p++)
 	{
-		if(*p > *max)
+		if (*p > *max)
 			*max = *p;
-		else if(*p < *min)
+		else if (*p < *min)
 			*min = *p;
 	}
 }
