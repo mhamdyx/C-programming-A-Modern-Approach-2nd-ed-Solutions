@@ -12,25 +12,17 @@
 
 int main(void)
 {
-	char input, message[LEN] = {0}, *msg_ptr = message;
-
-	printf("Enter a message: ");
+	char input, message[LEN], *msg_ptr = message;
 
 	// Reading the message
-	input = getchar();
-
-	while(input != '\n' && msg_ptr < message + LEN)
-	{
+	printf("Enter a message: ");
+	while ((input = getchar()) != '\n' && msg_ptr < message + LEN)
 		*msg_ptr++ = input;
-		input = getchar();
-	}
-	msg_ptr--;
 
+	// Reversing the message
 	printf("Reversal is: ");
-	while(msg_ptr >= message)
-	{
-		printf("%c", *msg_ptr--);
-	}
+	while (msg_ptr > message)
+		putchar(*--msg_ptr);
 
 	return 0;
 }
