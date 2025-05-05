@@ -88,37 +88,25 @@ int main(void)
 	push(9);
 	printf("Stack now contains 4 items.\nHowever, the stack is ");
 
-	if(is_full())
-	{
+	if (is_full())
 		printf("full.\n");
-	}
 	else
-	{
 		printf("not full.\n");
-	}
 
 	printf("And of course the stack is ");
 
-	if(is_empty())
-	{
+	if (is_empty())
 		printf("empty.\n");
-	}
 	else
-	{
 		printf("not empty.\n");
-	}
 
 	printf("By calling make_empty(), the stack is now ");
 	make_empty();
 
-	if(is_empty())
-	{
+	if (is_empty())
 		printf("empty.\n");
-	}
 	else
-	{
 		printf("not empty.\n");
-	}
 
 	return 0;
 }
@@ -140,22 +128,16 @@ bool is_full(void)
 
 void push(int i)
 {
-	if(is_full())
-	{
+	if (is_full())
 		stack_overflow();
-	}
 	else
-	{
 		*top_ptr++ = i;
-	}
 }
 
 int pop(void)
 {
-	if(is_empty())
-	{
+	if (is_empty())
 		stack_underflow();
-	}
 
 	return *--top_ptr;
 }
@@ -198,7 +180,7 @@ int sum_array(const int *a, int n)
 	int sum = 0;
 	const int *p;
 
-	for(p = a; p < a + n; p++)
+	for (p = a; p < a + n; p++)
 		sum += *p;
 
 	return sum;
@@ -223,11 +205,9 @@ int main(void)
 bool search(const int a[], int n, int key)
 {
 	const int *p;
-	for(p = a; p < a + n; p++)
-	{
-		if(*p == key)
+	for (p = a; p < a + n; p++)
+		if (*p == key)
 			return true;
-	}
 
 	return false;
 }
@@ -255,7 +235,7 @@ void store_zeros(int *a, int n)
 {
 	int *p;
 
-	for(p = a; p < a + n; p++)
+	for (p = a; p < a + n; p++)
 		*p = 0;
 }
 
@@ -266,10 +246,8 @@ int main(void)
 	int i, a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 	store_zeros(a, 10);
 
-	for(i = 0; i < 10; i++)
-	{
+	for (i = 0; i < 10; i++)
 		printf("%d ", a[i]);
-	}
 
 	return 0;
 }
@@ -284,10 +262,8 @@ double inner_product(const double *a, const double *b, int n)
 	const double *p, *q;
 	double sum = 0.0;
 
-	for(p = a, q = b; p < a + n; p++, q++)
-	{
+	for (p = a, q = b; p < a + n; p++, q++)
 		sum += (*p) * (*q);
-	}
 
 	return sum;
 }
@@ -329,11 +305,9 @@ int find_largest(int *a, int n)
 {
 	int *p, max = *a;
 
-	for(p = a; p < a + n; p++)
-	{
-		if(*p > max)
+	for (p = a; p < a + n; p++)
+		if (*p > max)
 			max = *p;
-	}
 
 	return max;
 }
@@ -360,9 +334,9 @@ void find_two_largest(const int *a, int n, int *largest, int *second_largest)
 	*largest = *a;
 	*second_largest = *(a + 1);
 
-	for(p = a; p < a + n; p++)
+	for (p = a; p < a + n; p++)
 	{
-		if(*p > *largest)
+		if (*p > *largest)
 		{
 			*second_largest = *largest;
 			*largest = *p;
@@ -397,29 +371,29 @@ int main(void)
 int main(void)
 {
 	double ident[N][N], *p;
-	int count = 0;
+	int count, row, col;
 
-	for(p = &ident[0][0]; p <= &ident[N - 1][N - 1]; p++, count++)
+	for (p = &ident[0][0]; p <= &ident[N - 1][N - 1]; p++)
 	{
-		if(count > 0 && count <= N)
-		{
-			*p = 0;
-		}
-		else
+		if (p == &ident[0][0] || count == N)
 		{
 			*p = 1;
 			count = 0;
 		}
+		else
+		{
+			*p = 0;
+			count++;
+		}
 	}
 
 	// Print the 2D-array
-	for(int row = 0; row < N; row++)
+	for(row = 0; row < N; row++)
 	{
-		for(int col = 0; col < N; col++)
-		{
-			printf("%.1lf ", ident[row][col]);
-		}
-		printf("\n");
+		for(col = 0; col < N; col++)
+			printf("%g ", ident[row][col]);
+
+		putchar('\n');
 	}
 
 	return 0;
@@ -436,9 +410,9 @@ int main(void)
 bool search(const int a[], int n, int key)
 {
 	const int *p;
-	for(p = a; p < a + n; p++)
+	for (p = a; p < a + n; p++)
 	{
-		if(*p == key)
+		if (*p == key)
 			return true;
 	}
 
@@ -450,24 +424,22 @@ bool search(const int a[], int n, int key)
 
 int main(void)
 {
-	int temperature[7][24] = {{0}}; // All elements are initialized to 0
+	int i, temperature[7][24] = {{0}}; // All elements are initialized to 0
 
 	// test case
 	temperature[3][17] = 32; // Comment it to return false from search function
 
 	// Search algorithm
-	for(int i = 0; i < 7; i++)
+	for (i = 0; i < 7; i++)
 	{
-		if(search(temperature[i], 24, 32)) // The statement
+		if (search(temperature[i], 24, 32)) // The statement
 		{
 			printf("Value exists!");
 			break;
 		}
 
-		if(i == 6)
-		{
+		if (i == 6) // in case break statement was never executed
 			printf("Value doesn't exist");
-		}
 	}
 
 	return 0;
@@ -485,14 +457,16 @@ int main(void)
 	int temperature[7][24] = {{0}}; // All elements are initialized to 0
 	int *p, i;
 
-	// Loop of processing rows
-	for(i = 0; i < 7; i++)
+	// Loop for processing rows (not required in the solution)
+	for (i = 0; i < 7; i++)
 	{
-		for(p = temperature[i]; p < temperature[i] + 24; p++)
-		{
+		// Loop for processing row i (the required loop)
+		///////////////////////////////////////////////////
+		for (p = temperature[i]; p < temperature[i] + 24; p++)
 			printf("%d ", *p);
-		}
-		printf("\n");
+		//////////////////////////////////////////////////
+		
+		putchar('\n');
 	}
 
 	return 0;
@@ -524,14 +498,12 @@ int main(void)
 
 	// Loop of finding the max element
 	abs_max = find_largest(temperature[0], 24);
-	for(i = 1; i < 7; i++)
+	for (i = 1; i < 7; i++)
 	{
 		max_per_row = find_largest(temperature[i], 24);
 
-		if(*max_per_row > *abs_max)
-		{
+		if (*max_per_row > *abs_max)
 			abs_max = max_per_row;
-		}
 	}
 
 	// Printing the maximum temp
@@ -542,13 +514,11 @@ int main(void)
 
 int *find_largest(int a[], int n)
 {
-	int *max_elem = &a[0];
+	int i, *max_elem = &a[0];
 
-	for(int i = 1; i < n; i++)
-	{
-		if(a[i] > *max_elem)
+	for (i = 1; i < n; i++)
+		if (a[i] > *max_elem)
 			max_elem = &a[i];
-	}
 
 	return max_elem;
 }
@@ -568,24 +538,18 @@ int sum_two_dimensional_array(const int a[][LEN], int n)
 	const int *p;
 
 	for(p = *a; p < *a + n * LEN; p++)
-	{
 		sum += *p;
-	}
 
 	return sum;
 }
 
 int main(void)
 {
-	int arr[3][LEN], sum_2D_arr;
+	int arr[3][LEN], sum_2D_arr, i, j;
 
-	for(int i = 0; i < 3; i++)
-	{
-		for(int j = 0; j < LEN; j++)
-		{
-			arr[i][j] = 1;
-		}
-	}
+	for (i = 0; i < 3; i++)
+		for (j = 0; j < LEN; j++)
+			arr[i][j] = 5;
 
 	sum_2D_arr = sum_two_dimensional_array((const int (*)[LEN])arr, 3);
 	// Type casting to avoid warning but not necessary
@@ -598,7 +562,6 @@ int main(void)
 }
 */
 
-
 //----------------------------------
 
 // Q18
@@ -606,54 +569,23 @@ int main(void)
 int evaluate_position(char board[8][8])
 {
 	int white_weight = 0, black_weight = 0;
-
 	char *p;
 
-	for(p = *board; p < *board + 64; p++)
+	for (p = *board; p < *board + 64; p++)
 	{
-		switch(*p)
+		switch (*p)
 		{
-		case 'Q':
-			white_weight += 9;
-			break;
-
-		case 'R':
-			white_weight += 5;
-			break;
-
-		case 'B':
-			white_weight += 3;
-			break;
-
-		case 'N':
-			white_weight += 3;
-			break;
-
-		case 'P':
-			white_weight += 1;
-			break;
-
-		case 'q':
-			black_weight += 9;
-			break;
-
-		case 'r':
-			black_weight += 5;
-			break;
-
-		case 'b':
-			black_weight += 3;
-			break;
-
-		case 'n':
-			black_weight += 3;
-			break;
-
-		case 'p':
-			black_weight += 1;
-			break;
+		case 'Q': white_weight += 9; break;
+		case 'R': white_weight += 5; break;
+		case 'B': white_weight += 3; break;
+		case 'N': white_weight += 3; break;
+		case 'P': white_weight += 1; break;
+		case 'q': black_weight += 9; break;
+		case 'r': black_weight += 5; break;
+		case 'b': black_weight += 3; break;
+		case 'n': black_weight += 3; break;
+		case 'p': black_weight += 1; break;
 		}
-
 	}
 
 	return (white_weight - black_weight);
