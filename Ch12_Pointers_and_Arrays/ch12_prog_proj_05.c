@@ -5,48 +5,48 @@
  *      Author: Mahmoud Hamdy
  */
 
-// Programming Project 5: Reverse words in a sentence
+// Programming Project 5: Reverse words in a sentence (New implementation)
 
 #include <stdio.h>
-#define LEN 100
+#define MAX_LEN 100
+
 int main(void)
 {
-	char sentence[LEN], input, *sent_ptr = sentence, *word_begin, *word_end;
+	char sentence[MAX_LEN], input_ch;
+	char *sent_ptr = sentence, *word_start, *word_end;
 
 	printf("Enter a sentence: ");
-
-	input = getchar();
-	while(input != '!' &&  input != '?' && input != '.' && sent_ptr < sentence + LEN)
+	while ((input_ch = getchar()) != '\n')
 	{
-		*sent_ptr++ = input;
-		input = getchar();
+		if (input_ch == '.' || input_ch == '?' || input_ch == '!')
+			break;
+		else
+			*sent_ptr++ = input_ch;
 	}
-	sent_ptr--;
 
-	// Sentence Reversal
-	word_end = sent_ptr;
-	word_begin = word_end;
-
-	while(word_begin > sentence)
+	printf("Reversal of sentence: ");
+	for (word_start = sent_ptr - 1; word_start > sentence;)
 	{
-		while(*word_begin != ' ' && word_begin != sentence) { word_begin--; }
+		// Detect the first character of the word to be printed
+		while (*(word_start - 1) != ' ' && word_start > sentence)
+			word_start--;
 
-		char *temp_ptr = (word_begin == sentence) ? word_begin : word_begin + 1;
+		// Print the word and make sure we don't go out of:
+		// 1) sentence bound (the end of the sentence array)
+		// 2) word bound (space)
+		for (word_end = word_start; word_end < sent_ptr && *word_end != ' '; word_end++)
+			putchar(*word_end);
 
-		while(temp_ptr <= word_end)
+		// Detect the last character in the next word to be printed
+		while (*(word_start - 1) == ' ' && word_start > sentence)
 		{
-			printf("%c", *temp_ptr++);
-		}
-
-		if(word_begin != sentence)
-		{
-			printf("%c", *word_begin);
-			word_end = --word_begin; // Moving to the next word backwords
+			putchar(' ');
+			word_start--;
 		}
 	}
 
-	// Printing the terminal character
-	printf("%c", input);
+	putchar(input_ch); // Print the terminating character
+	putchar('\n');
 
 	return 0;
 }
