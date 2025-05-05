@@ -14,56 +14,42 @@
 
 int main(void)
 {
-	char input, message[LEN] = {0};
-	int msg_len = 0;
-
-	printf("Enter a message: ");
+	char input, message[LEN];
+	int i, msg_len = 0;
 
 	// Reading the message
-	input = getchar();
+	printf("Enter a message: ");
+	while ((input = getchar()) != '\n' && msg_len < LEN)
+		message[msg_len++] = input;
 
-	while(input != '\n' && msg_len < LEN)
-	{
-		message[msg_len] = input;
-		msg_len++;
-		input = getchar();
-	}
-
+	// Reversing the message
 	printf("Reversal is: ");
-	for(int i = msg_len - 1; i >= 0; i--)
-	{
-		printf("%c", message[i]);
-	}
+	for (i = msg_len - 1; i >= 0; i--)
+		putchar(message[i]);
 
 	return 0;
 }
 */
 
 // (b)
+/*
 #include <stdio.h>
 #define LEN 100
 
 int main(void)
 {
-	char input, message[LEN] = {0}, *msg_ptr = message;
-
-	printf("Enter a message: ");
+	char input, message[LEN], *msg_ptr = message;
 
 	// Reading the message
-	input = getchar();
-
-	while(input != '\n' && msg_ptr < message + LEN)
-	{
+	printf("Enter a message: ");
+	while ((input = getchar()) != '\n' && msg_ptr < message + LEN)
 		*msg_ptr++ = input;
-		input = getchar();
-	}
-	msg_ptr--;
 
+	// Reversing the message
 	printf("Reversal is: ");
-	while(msg_ptr >= message)
-	{
-		printf("%c", *msg_ptr--);
-	}
+	while (msg_ptr > message)
+		putchar(*--msg_ptr);
 
 	return 0;
 }
+*/
