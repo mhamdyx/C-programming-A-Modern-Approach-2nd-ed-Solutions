@@ -14,48 +14,32 @@
 
 int main(void)
 {
-	char input, message[LEN] = {0}, *msg_ptr = message, *left_ch, *right_ch;
+	char input, message[LEN], *left_ch = message, *right_ch = message;
 	bool palindrome = true;
 
-	printf("Enter a message: ");
-
 	// Reading the message
-	input = getchar();
+	printf("Enter a message: ");
+	while ((input = getchar()) != '\n' && right_ch < message + LEN)
+		if (isalpha(input))
+			*right_ch++ = tolower(input);
 
-	while(input != '\n' && msg_ptr < message + LEN)
-	{
-		if((input >= 'A' && input <= 'Z') || (input >= 'a' && input <= 'z'))
-		{
-			*msg_ptr++ = (input <= 'Z') ? tolower(input) : input;
-		}
-		input = getchar();
-	}
-	msg_ptr--;
+	// Go back to the message end
+	right_ch--;
 
 	// Palindrome Detection
-	left_ch = message;
-	right_ch = msg_ptr;
-
-	while(left_ch <= right_ch)
+	while (left_ch < right_ch)
 	{
-		if(*left_ch != *right_ch)
+		if (*left_ch++ != *right_ch--)
 		{
 			palindrome = false;
 			break;
 		}
-
-		left_ch++;
-		right_ch--;
 	}
 
-	if(palindrome)
-	{
+	if (palindrome)
 		printf("Palindrome");
-	}
 	else
-	{
 		printf("Not a palindrome");
-	}
 
 	return 0;
 }
