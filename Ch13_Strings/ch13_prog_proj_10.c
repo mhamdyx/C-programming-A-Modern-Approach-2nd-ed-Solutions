@@ -9,18 +9,17 @@
 
 #include <stdio.h>
 #include <string.h>
-#define NAME_LEN 100 // You will not have to write a bio for that name :D
+#include <ctype.h>
+#define NAME_LEN 99 // You will not have to write a bio for that name :D
 
 void reverse_name(char *name);
 void read_name(char *name, int name_len);
 
 int main(void)
 {
-	//char last_ch, first_ch;
-	char name[NAME_LEN];
+	char name[NAME_LEN + 1];
 
 	printf("Enter a first and last name: ");
-
 	read_name(name, NAME_LEN);
 	reverse_name(name);
 
@@ -33,35 +32,36 @@ void reverse_name(char *name)
 {
 	char first_name[4] = ",  ";
 	first_name[2] = *name;
-
 	char *last_name = name;
 
-	while(*last_name++ != ' '); // Searching for the first letter in last name
+	while (*last_name++ != ' '); // Searching for the first letter in last name
 
 	strcat(strcpy(name, last_name), first_name);
 }
 
-
-
 void read_name(char *name, int name_len)
 {
-	int name_count = 0;
+	int i = 0;
 
-	while((name[name_count] = getchar()) == ' '); // Skipping initial spaces
+	while (isspace(name[i] = getchar())); // Skipping initial spaces
+	i++;
 
 	// Read first name
-	while((name[++name_count] = getchar()) != ' ' && name_count < name_len);
-	name_count++;
+	while (i < name_len)
+		if (isspace(name[i++] = getchar()))
+			break;
 
-
-	while((name[name_count] = getchar()) == ' '); // Skipping what's more than one space
+	while (isspace(name[i] = getchar())); // Skipping intermediate spaces
+	i++;
 
 	// Read last name
-	do
-	{
-		name[++name_count] = getchar();
-	} while(name[name_count] && name[name_count] != '\n'
-			&& name[name_count] != ' ' && name_count < name_len);
+	while (i < name_len)
+		if (isspace(name[i++] = getchar()))
+			break;
 
-	name[name_count] = '\0';
+	// Detect end of line and skip white-spaces at the end
+	if (name[--i] != '\n') // last written white-space character
+		while (getchar() != '\n');
+
+	name[i] = '\0'; // convert to string
 }
