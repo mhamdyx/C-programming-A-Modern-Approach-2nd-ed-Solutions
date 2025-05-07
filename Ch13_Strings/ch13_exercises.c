@@ -46,7 +46,7 @@
  * s = abc34
  * j = 56
  *
- * prinf will stop adding to string s when it encounters a white-space and then
+ * scanf will stop adding to string s when it encounters a white-space and then
  * starts looking for a numerical value to be assigned to j
  *
  */
@@ -56,10 +56,11 @@
 // Q4
 
 // Uncomment this section to test any function
-//#include <stdio.h>
-//#include <ctype.h>
-//#define STR_LEN 12
-
+/*
+#include <stdio.h>
+#include <ctype.h>
+#define STR_LEN 12
+*/
 
 // Original version
 /*
@@ -67,11 +68,10 @@ int read_line(char str[], int n)
 {
 	int ch, i = 0;
 
-	while((ch = getchar()) != '\n')
-	{
-		if(i < n)
+	while ((ch = getchar()) != '\n')
+		if (i < n)
 			str[i++] = ch;
-	}
+
 	str[i] = '\0';
 
 	return i; // number of characters stored
@@ -83,15 +83,14 @@ int read_line(char str[], int n)
 int read_line(char str[], int n)
 {
 	int ch, i = 0;
-	while((ch = getchar()) == ' '); // skip white space
+	while (isspace(ch = getchar())); // skip leading white space
 
-	while(ch != '\n')
+	do
 	{
-		if(i < n)
+		if (i < n)
 			str[i++] = ch;
+	} while ((ch = getchar()) != '\n');
 
-		ch = getchar();
-	}
 	str[i] = '\0';
 
 	return i; // number of characters stored
@@ -104,14 +103,10 @@ int read_line(char str[], int n)
 {
 	int ch, i = 0;
 
-	ch = getchar();
-	while(!isspace(ch))
-	{
-		if(i < n)
+	while (!isspace(ch = getchar()))
+		if (i < n)
 			str[i++] = ch;
 
-		ch = getchar();
-	}
 	str[i] = '\0';
 
 	return i; // number of characters stored
@@ -128,9 +123,9 @@ int read_line(char str[], int n)
 	{
 		ch = getchar();
 
-		if(i < n)
+		if (i < n)
 			str[i++] = ch;
-	} while(ch != '\n');
+	} while (ch != '\n');
 
 	str[i] = '\0';
 
@@ -139,37 +134,41 @@ int read_line(char str[], int n)
 */
 
 // d) Leaves behind characters that it doesn't have room to store
-// Unchanged given the situation of the test script
-// assuming we only pass the maximum size excluding
-// the space where we will store the null character
+// We will flip the two conditions in the while and the if statements
+// This way, we make sure we leave behind the next character to be read
+// without dropping it if the string can not hold it
+// Example Input: Mahmoud
+// STR_LEN is 4
+// Original behavior: str content: "Mahm", dropped ch: 'o', remaining: "ud"
+// d's behavior: str content: "Mahm", no dropped ch, remaining: "oud"
 /*
- int read_line(char str[], int n)
- {
- 	int ch, i = 0;
+int read_line(char str[], int n)
+{
+	int ch, i = 0;
 
- 	while((ch = getchar()) != '\n')
- 	{
- 		if(i < n)
+	while (i < n)
+ 		if ((ch = getchar()) != '\n')
  			str[i++] = ch;
- 	}
+
  	str[i] = '\0';
 
  	return i; // number of characters stored
- }
- */
+}
+*/
 
-// test script
+// test script: uncomment this along with the chosen version to be tested
 /*
 int main(void)
 {
-	char s[STR_LEN + 1] = "hello";
+	char s[STR_LEN + 1];
+	int str_len;
 
 	printf("Enter string: ");
 
 	// Uncomment the function definition of one version and comment the others
-	int str_len = read_line(s, STR_LEN);
+	str_len = read_line(s, STR_LEN);
 
-	printf("You entered: %s\nLength = %d", s, str_len);
+	printf("You entered: %s\nLength = %d\n", s, str_len);
 
 	return 0;
 }
@@ -178,6 +177,7 @@ int main(void)
 //----------------------------------
 
 // Q5
+
 // Uncomment this section to test any function
 //#include <stdio.h>
 //#include <ctype.h>
@@ -188,21 +188,17 @@ int main(void)
 void capitalize(char str[])
 {
 	int i;
-	for(i = 0; str[i] != '\0'; i++)
-	{
+	for (i = 0; str[i] != '\0'; i++)
 		str[i] = toupper(str[i]);
-	}
 }
 */
 
 // b) using pointer arithmetic
 /*
-void capitalize(char* p_str)
+void capitalize(char *p_str)
 {
-	for(; *p_str != '\0'; p_str++)
-	{
+	for (; *p_str != '\0'; p_str++)
 		*p_str = toupper(*p_str);
-	}
 }
 */
 
@@ -220,7 +216,7 @@ int main(void)
 	capitalize(str3);
 
 	// Print the result
-	printf("str1 now = %s\nstr2 now = %s\nstr3 now = %s", str1, str2, str3);
+	printf("str1 now = %s\nstr2 now = %s\nstr3 now = %s\n", str1, str2, str3);
 
 	return 0;
 }
@@ -231,33 +227,26 @@ int main(void)
 // Q6
 
 /*
-void censor(char str[])
-{
-	int i, counter = 0;
+#include <stdio.h>
+#include <string.h>
 
-	for(i = 0; str[i] != '\0'; i++)
+void censor(char str[], int len)
+{
+	int i = 0;
+
+	while (i + 2 < len)
 	{
-		if(counter == 0 && str[i] == 'f')
+		// or if (str[i] == 'f' && str[i + 1] = 'o' && str[i + 2] = 'o')
+		if (!strncmp(str, "foo", 3))
 		{
-			counter++;
-		}
-		else if(counter == 1 && str[i] == 'o')
-		{
-			counter++;
-		}
-		else if(counter == 2 && str[i] == 'o')
-		{
-			str[i] = str[i - 1] = str[i - 2] = 'x';
-			counter = 0;
+			str[i] = str[i + 1] = str[i + 2] = 'x';
+			i += 3;
 		}
 		else
-		{
-			counter = 0;
-		}
+			i++;
 	}
 }
 */
-
 
 // test script
 /*
@@ -267,11 +256,11 @@ int main(void)
 	char str1[] = "food fool";
 	char str2[] = "for god sake";
 	char str3[] = "fooooooooooo";
-	censor(str1);
-	censor(str2);
-	censor(str3);
+	censor(str1, strlen(str1));
+	censor(str2, strlen(str2));
+	censor(str3, strlen(str3));
 
-	printf("After censoring:\nstr1 = %s\nstr2 = %s\nstr3 = %s", str1, str2, str3);
+	printf("After censoring:\nstr1 = %s\nstr2 = %s\nstr3 = %s\n", str1, str2, str3);
 
 	return 0;
 }
@@ -320,7 +309,9 @@ int main(void)
 // Q10
 
 /*
- * We can not copy the string pointed by p to q because q has unknown area in memory.
+ * We can not copy the string pointed by p to q because q has undefined value 
+ * hence unknown area in memory. 
+ * 
  * So, this is considered as undefined behaviour with unpredictable results
  *
  */
@@ -334,11 +325,9 @@ int main(void)
 
 int strcmp(char *s, char *t)
 {
-	for(; *s == *t; s++, t++)
-	{
+	for (; *s == *t; s++, t++)
 		if(!*s)
 			return 0;
-	}
 
 	return *s - *t;
 }
@@ -369,27 +358,21 @@ int main(void)
 
 void get_extension(const char *file_name, char *extension)
 {
-	int dots = 0; // count the number of dots in file
-	char ext[strlen(file_name)]; // pointer to the extension of the last dot in the file
+	const char *ptr_ext; // pointer to the extension of the last dot in the file
 
-	while(*file_name != '\0')
-	{
-		if(*file_name++ == '.')
-		{
-			dots++;
-			strcpy(ext, file_name);
-		}
-	}
+	for (ptr_ext = file_name; *file_name; file_name++)
+		if (*file_name == '.')
+			ptr_ext = file_name;
 
-	if(dots)
-		strcpy(extension, ext);
+	if (*ptr_ext == '.')
+		strcpy(extension, ptr_ext + 1);
 	else
 		strcpy(extension, "");
 }
 
 int main(void)
 {
-	char *f1 = "Mortal Combat.exe", ext1[strlen(f1)];
+	char *f1 = "Mortal Kombat.exe", ext1[strlen(f1)];
 	char *f2 = "Dark.Magician.jpg", ext2[strlen(f2)]; // That's why we added dots variable
 	char *f3 = "Makefile", ext3[strlen(f3)];
 
@@ -397,7 +380,6 @@ int main(void)
 	get_extension(f1, ext1);
 	get_extension(f2, ext2);
 	get_extension(f3, ext3);
-
 
 	printf("Extension of \"%s\": %s\n", f1, (*ext1) ? ext1 : "no extension");
 	printf("Extension of \"%s\": %s\n", f2, (*ext2) ? ext2 : "no extension");
@@ -468,8 +450,8 @@ int count_spaces(const char *s)
 {
 	int count = 0;
 
-	while(*s)
-		if(*s++ == ' ')
+	while (*s)
+		if (*s++ == ' ')
 			count++;
 
 	return count;
@@ -480,7 +462,7 @@ int main(void)
 	char *s1 = "No pain no gain"; // spaces = 3
 	char *s2 = "Not all who wonder are lost"; // spaces = 5
 
-	printf("Spaces in s1 = %d\nSpaces in s2 = %d", count_spaces(s1), count_spaces(s2));
+	printf("Spaces in s1 = %d\nSpaces in s2 = %d\n", count_spaces(s1), count_spaces(s2));
 
 	return 0;
 }
@@ -496,42 +478,23 @@ int main(void)
 #include <ctype.h>
 #include <string.h>
 
-
 bool test_extension(const char *file_name, char *extension)
 {
-	int dots = 0; // count the number of dots in file
-	char ext[strlen(file_name)]; // pointer to the extension of the last dot in the file
-	char *p_ext = ext;
+	const char *ptr_ext; // pointer to the extension of the last dot in the file
 
-	while(*file_name)
-	{
-		if(*file_name++ == '.') // To get the last dot in the given filename
-		{
-			dots++;
-			strcpy(ext, file_name);
-		}
-	}
+	for (ptr_ext = file_name; *file_name; file_name++)
+		if (*file_name == '.')
+			ptr_ext = file_name;
 
-	if(dots)
-	{
-		while(*p_ext && *extension)
-		{
-			if(toupper(*p_ext++) != toupper(*extension++))
-				return false;
-		}
+	if (*ptr_ext != '.') // check if file has no extension to begin with
+		return false;
 
-		if(*p_ext != *extension) // one is shorter than the other
-			return false;
-	}
-	else
-	{
-		return false; // no extension in the given file
-	}
+	for (ptr_ext++; toupper(*ptr_ext) == toupper(*extension); ptr_ext++, extension++)
+		if (!*ptr_ext)
+			break;
 
-	return true; // file's extension matches the given extension
+	return (*ptr_ext - *extension == 0 ? true : false);
 }
-
-// That implementation was less elegant but faster than when using strcmp
 
 int main(void)
 {
@@ -561,15 +524,12 @@ void remove_filename(char *url)
 {
 	char *last_slash;
 
-	while(*url)
-	{
-		if(*url++ == '/')
-			last_slash = url - 1;
-	}
+	for(; *url; url++)
+		if (*url == '/')
+			last_slash = url;
 
 	*last_slash = 0;
 }
-
 
 int main(void)
 {
@@ -581,7 +541,7 @@ int main(void)
 	remove_filename(url2);
 	remove_filename(url3);
 
-	printf("URL1 now is %s\nURL2 now is %s\nURL3 now is %s", url1, url2, url3);
+	printf("URL1 now is %s\nURL2 now is %s\nURL3 now is %s\n", url1, url2, url3);
 
 	return 0;
 }
