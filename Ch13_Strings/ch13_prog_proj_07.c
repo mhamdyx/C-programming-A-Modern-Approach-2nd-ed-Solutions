@@ -14,18 +14,18 @@ int main(void)
 	int units, tens, num;
 	char *tens_str[] =
 	{
-			"twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
+		"twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
 	};
 
 	char *units_str[] =
 	{
-			"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
+		"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
 	};
 
 	char *special_num_str[] =
 	{
-			"ten", "eleven", "twelve", "thirteen", "fourteen",
-			"fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
+		"ten", "eleven", "twelve", "thirteen", "fourteen",
+		"fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
 	};
 
 	printf("Enter a two-digit number: ");
@@ -36,28 +36,17 @@ int main(void)
 
 	printf("You entered the number ");
 
-	if(num == 0)
-	{
+	if (num < 10)
 		printf("%s", units_str[num]);
-	}
-	else if(num >= 10 && num <= 19)
-	{
+	else if (num >= 10 && num <= 19)
 		printf("%s", special_num_str[units]);
-	}
 	else
 	{
-		if(tens)
-		{
+		if (tens)
 			printf("%s", tens_str[tens - 2]);
-		}
 
-		if(units && tens)
-			printf("-");
-
-		if(units)
-		{
-			printf("%s", units_str[units]);
-		}
+		if (units && num > 19)
+			printf("-%s", units_str[units]);
 	}
 
 	printf(".\n");
