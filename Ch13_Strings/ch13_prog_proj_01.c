@@ -10,22 +10,26 @@
 #include <stdio.h>
 #include <string.h>
 #define WORD_LEN 20
+#define STOP_LEN 4
 
 void read_word(char *word, int word_len)
 {
 	int count = 0;
-	while((*word++ = getchar()) != '\n' && count++ < word_len);
+
+	while ((*word++ = getchar()) != '\n' && count++ < word_len);
+
 	*--word = '\0';
 
-	if(count > word_len)
-		while(getchar() != '\n');
+	if (count > word_len)
+		while (getchar() != '\n');
 }
 
 int main(void)
 {
-	char input_word[21], smallest_word[21], largest_word[21];
+	char input_word[WORD_LEN + 1], smallest_word[WORD_LEN + 1], largest_word[WORD_LEN + 1];
 	int i;
-	for(i = 0; i < 21; i++)
+
+	for (i = 0; i < WORD_LEN + 1; i++)
 	{
 		smallest_word[i] = 'z'; // largest value possible
 		largest_word[i] = 'A'; // smallest value possible
@@ -36,20 +40,16 @@ int main(void)
 		printf("Enter word: ");
 		read_word(input_word, WORD_LEN);
 
-		if(strcmp(smallest_word, input_word) > 0)
-		{
+		if (strcmp(smallest_word, input_word) > 0)
 			strcpy(smallest_word, input_word);
-		}
 
-		if(strcmp(largest_word, input_word) < 0)
-		{
+		if (strcmp(largest_word, input_word) < 0)
 			strcpy(largest_word, input_word);
-		}
 
-	} while(strlen(input_word) != 4);
+	} while(strlen(input_word) != STOP_LEN);
 
 	printf("\nSmallest word: %s\n", smallest_word);
-	printf("Largest word: %s", largest_word);
+	printf("Largest word: %s\n", largest_word);
 
 	return 0;
 }
