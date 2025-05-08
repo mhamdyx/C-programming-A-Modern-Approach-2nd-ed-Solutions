@@ -21,23 +21,21 @@ int main(void)
 	int i;
 
 	printf("Enter a sentence: ");
-
-	for(i = 0; i < WORDS_NUM; i++)
+	for (i = 0; i < WORDS_NUM; i++)
 	{
 		scanf("%s", sentence[i]);
-        
-		if(end_with_special_ch(sentence[i], &special_ch))
+		if (end_with_special_ch(sentence[i], &special_ch))
 			break;
 	}
 
-	if(i == WORDS_NUM)
+	if (i == WORDS_NUM)
 		i--;
 
 	// Printing the reversed sentence
-	while(i > 0)
-	{
+	printf("Reversal of sentence: ");
+	while (i > 0)
 		printf("%s ", sentence[i--]);
-	}
+
 	printf("%s%c\n", sentence[i], special_ch);
 
 	return 0;
@@ -45,10 +43,10 @@ int main(void)
 
 bool end_with_special_ch(char *str, char *special_ch)
 {
-	while(*str++);
+	while (*str++);
 	str -= 2; // Go back to the last character
 
-	if(*str == '.' || *str == '!' || *str == '?')
+	if (*str == '.' || *str == '!' || *str == '?')
 	{
 		*special_ch = *str;
 		*str = '\0';
