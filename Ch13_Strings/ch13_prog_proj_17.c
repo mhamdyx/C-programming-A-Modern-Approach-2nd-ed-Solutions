@@ -16,32 +16,21 @@ bool is_palindrome(const char *message);
 
 int main(void)
 {
-	char input, message[LEN] = {0}, *msg_ptr = message;
-
-	printf("Enter a message: ");
+	char input, message[LEN], *msg_ptr = message;
 
 	// Reading the message
-	input = getchar();
+	printf("Enter a message: ");
+	while ((input = getchar()) != '\n' && msg_ptr < message + LEN)
+		if (isalpha(input))
+			*msg_ptr++ = tolower(input);
 
-	while(input != '\n' && msg_ptr < message + LEN)
-	{
-		if((input >= 'A' && input <= 'Z') || (input >= 'a' && input <= 'z'))
-		{
-			*msg_ptr++ = (input <= 'Z') ? tolower(input) : input;
-		}
-		input = getchar();
-	}
-	msg_ptr--;
+	*msg_ptr = '\0';
 
 	// Palindrome Detection
-	if(is_palindrome(message))
-	{
-		printf("Palindrome");
-	}
+	if (is_palindrome(message))
+		printf("Palindrome\n");
 	else
-	{
-		printf("Not a palindrome");
-	}
+		printf("Not a palindrome\n");
 
 	return 0;
 }
@@ -50,17 +39,12 @@ bool is_palindrome(const char *message)
 {
 	const char *head = message, *tail = message;
 
-	while(*tail)
-		tail++;
-	tail--;
+	while (*tail++);
+	tail -= 2; // Go to last character
 
-	while(head <= tail)
-	{
-		if(*head++ != *tail--)
-		{
+	while (head <= tail)
+		if (*head++ != *tail--)
 			return false;
-		}
-	}
 
 	return true;
 }
