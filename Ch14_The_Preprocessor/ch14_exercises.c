@@ -23,6 +23,14 @@ int main(void)
 }
 */
 
+/*
+ * Note: The above macros work for numeric inputs only
+ * and they will produce the correct results as long as the
+ * parentheses are maintained.
+ *
+ * Otherwise, they will fail.
+ */
+
 //----------------------------------
 
 // Q2 + test script
@@ -65,22 +73,25 @@ int main(void)
 
 /*
  * a) #define AVG(x, y) (x+y)/2
- * Problem: If x and y are expressions, the output will be unpredictable
+ * Problem: No parentheses around the replacement-list, hence this
+ * may have wrong results if AVG is used as a denominator
  *
- * Example: AVG(4 / 2, 2) = 4 / 2 + 2 / 2 = 3. Expectation was 2.
+ * Example: 6.0 / AVG(3, 3) = 6.0 / (3 + 3) / 2 = 6.0 / 6 / 2
+ * = 1.0 / 2 = 0.5 (But the desired is 2)
  *
- * Fix: Put parentheses between each macro parameter
+ * Fix: Put parentheses around the replacement-list if it has an operator
  *
  * Correct Macro:
- * #define AVG(x, y) ((x) + (y)) / 2
+ * #define AVG(x, y) ((x+y) / 2)
  *
  *
  * b) #define AREA(x, y) (x) * (y)
- * Problem: If the macro is used as a denominator, the output will be wrong
+ * Problem: No parentheses around the replacement-list, hence this
+ * may have wrong results if AVG is used as a denominator
  *
  * Example: 24 / AREA(3, 4) = 24 / 3 * 4 = 8 * 4 = 32. Expectation was 2
  *
- * Fix: Put parentheses if the replacement list has an operator
+ * Fix: Put parentheses around the replacement-list if it has an operator
  *
  * Correct Macro:
  * #define AREA(x, y) ((x) * (y))
@@ -98,19 +109,25 @@ int main(void)
  * a) s = "abcd", i = 0
  * putchar(TOUPPER(s[++i])) =
  * putchar('a' <= s[++i] && s[++i] <= 'z' ? s[++i] - 'a' + 'A' : s[++i]) =
+ * putchar('a' <= s[1] && s[++i] <= 'z' ? s[++i] - 'a' + 'A' : s[++i]) =
+ * putchar('a' <= s[1] && s[2] <= 'z' ? s[++i] - 'a' + 'A' : s[++i]) =
  * putchar('a' <= s[1] && s[2] <= 'z' ? s[3] - 'a' + 'A' : s[++i]) =
  * putchar(s[3] - 'a' + 'A') = putchar('d' - 'a' + 'A') = putchar('D')
+ *
+ * Output: D
  *
  *
  * b) s = "0123", i = 0
  * putchar(TOUPPER(s[++i])) =
+ * putchar('a' <= s[1] && s[++i] <= 'z' ? s[++i] - 'a' + 'A' : s[++i]) =
  * putchar('a' <= s[1] && s[++i] <= 'z' ? s[++i] - 'a' + 'A' : s[2]) =
  * putchar('2')
  *
  * Comment: first condition was false so the logical And doesn't continue evaluation
  *
+ * Output: 2
+ *
  */
-
 
 //----------------------------------
 
@@ -118,15 +135,14 @@ int main(void)
 /*
 #include <stdio.h>
 #include <math.h>
-#define DISP(f, x) printf(#f"(%g) = %g\n", (x), f(x)); // (a)
+#define DISP(f, x) printf(#f "(%g) = %g\n", (x), f(x)) // (a)
 
-#define DISP2(f, x, y) printf(#f"(%d, %d) = %g\n", (x), (y), f(x, y)); // (b)
+#define DISP2(f, x, y) printf(#f "(%g, %g) = %g\n", (x), (y), f(x, y)) // (b)
 
 int main(void)
 {
-	DISP(sqrt, 3.0)
-
-	DISP2(pow, 2, 3)
+	DISP(sqrt, 3.0);
+	DISP2(pow, 2.0, 3.0);
 
 	return 0;
 }
@@ -139,18 +155,24 @@ int main(void)
 /*
  * a) long long_max(long x, long y) { return x > y ? x : y; }
  *
- * b) Because we didn't specify to the macro that whether we want basic types or not
- * so when we attempt to do so, the function name still will be the same type_max and
- * not basic_type_max
+ * b) Beacuse types like "unsigned long" consist of two words and this will
+ * cause an inconsistent replacement-list and compiler errors
+ * For example, here is how the macro gets translated:
+ * unsigned long unsigned long_max(unsigned long x, unsigned long y)
+ * { return x > y ? x : y; }
  *
- * c) typedef unsigned long ulong
- * GENERIC_MAX(ulong);
+ * The function name does not depict that we desire unsigned long, and
+ * the compiler will report an error due to the duplication of the word
+ * unsigned
  *
- * ulong is just an alias and it's treated as unsigned long but not replaced in the code
- * by unsigned long, that's the difference.
+ *
+ * c) typedef unsigned long ULong
+ * GENERIC_MAX(ULong);
+ *
+ * ULong is just an alias and is treated as unsigned long but not replaced
+ * in the code by unsigned long, that's the difference.
  *
  */
-
 
 //----------------------------------
 
@@ -174,21 +196,36 @@ int main(void)
 
 /*
  * Comment:
- * Macro arguments are completely macro-expanded before they are substituted into
- * a macro body, unless they are stringified or pasted with other tokens.
- * After substitution, the entire macro body, including the substituted arguments,
- * is scanned again for macros to be expanded. The result that the arguments
- * are scanned twice to expand macro calls in them.
+ * Macro arguments are completely macro-expanded before they are
+ * substituted into a macro body, unless they are stringified or
+ * pasted with other tokens. After substitution, the entire macro
+ * body, including the substituted arguments, is scanned again for
+ * macros to be expanded. The result that the arguments are scanned
+ * twice to expand macro calls in them.
  *
  * Interpretation:
- * #define LINE(x) #x (Strigification exits so arguments are not expanded first)
- * LINE(__LINE__) --> output: #__LINE__
+ * Example 1:
+ * #define LINE(x) #x
+ * LINE(__LINE__) --> #__LINE__ --> "__LINE__"
  *
- * #define GET_LINE_NUM(x) LINE(x) (Arguments are expanded first since no # or ## exists)
- * GET_LINE_NUM(__LINE__) --> output: number
+ * Comment: Argument x is stringized in the macro body, so it's not
+ * macro-expanded before substitution
+ * 
+ * Example 2: Assume line number is 255
+ * #define GET_LINE_NUM(x) LINE(x)
+ * 1) Outer macro expansion
+ * GET_LINE_NUM(__LINE__) --> LINE(__LINE__)
+ * No # or ## in the macro body then do a prescan to the argument passed
+ * which is __LINE__ and substitute its value in the macro body
+ *
+ * 2) Prescan: __LINE__ ---> 255
+ *
+ * 3) Substitution in the macro body: LINE(255)
+ *
+ * 4) Continue scanning the macro body for more macros to be expanded
+ * LINE(255) --> #255 --> "255"
  *
  */
-
 
 //----------------------------------
 
@@ -198,12 +235,12 @@ int main(void)
 
 // (a)
 #define CHECK(x, y, n) \
-	(0 <= (x) && (x) <= ((n) - 1) && 0 <= (y) && (y) <= ((n) - 1)) ? 1 : 0
+	((0 <= (x) && (x) <= ((n) - 1) && 0 <= (y) && (y) <= ((n) - 1)) ? 1 : 0)
 
 // (b)
-#define MEDIAN(x, y, z) ((x) <= (y)) ? \
+#define MEDIAN(x, y, z) (((x) <= (y)) ? \
 	(((x) >= (z)) ? x : (((y) <= (z)) ? (y) : (z)))  : \
-	(((x) <= (z)) ? x : (((y) >= (z)) ? (y) : (z)))
+	(((x) <= (z)) ? x : (((y) >= (z)) ? (y) : (z))))
 
 
 // (c)
@@ -376,3 +413,16 @@ int main(void)
  * #pragma ident "foo"
  *
  */
+
+// Test Script:
+// Hint: I deliberately changed _Pragma to puts to show you the result
+/*
+#define IDENT(x) PRAGMA(ident #x)
+#define PRAGMA(x) puts(#x)
+
+int main(void)
+{
+	IDENT(foo);
+	return 0;
+}
+*/
