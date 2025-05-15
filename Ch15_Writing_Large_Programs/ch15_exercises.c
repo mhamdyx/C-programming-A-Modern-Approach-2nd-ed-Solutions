@@ -55,19 +55,23 @@
  * Value of j: 2
  * Value of k: 3
  * Value of i + j: 3
- * Value of 2 * i + j - k: 1\n
+ * Value of 2 * i + j - k: 1
+ * (blank line)
  *
  * b) Output:
- * Output if DEBUG is not defined\n
+ * Output if DEBUG is not defined:
+ * (blank line)
  *
  *
  * c) Because when the DEBUG definition is omitted, the else condition in
- * the header file is satisfied which basically define the parameterized macro
- * without any replacement list to deal with when calling it in main function
+ * the header file is satisfied which basically defines the parameterized
+ * macro as empty (without any replacement list), so it does nothing
+ * when calling it in the main function
  *
  *
- * d) Yes, the if condition in the header file depends on the pre-existence of the DEBUG
- * macro. If the order is to be altered, defining the DEBUG later would be in vain.
+ * d) Yes, the if condition in the header file depends on the pre-existence
+ * of the DEBUG macro. If the order was to be altered, defining the DEBUG
+ * macro later would be in vain.
  *
  */
 
@@ -93,14 +97,16 @@ f2.o: f2.c f2.h f1.h
 // Q6
 
 /*
- * a) All source files (f1.c, f2.c and main.c) will be compiled.
+ * a) All source files (f1.c, f2.c and main.c) need to be compiled.
  *
  * b) f1.c only will be recompiled
  *
- * c) Since it's included in all source files, all source files need to be re-compiled
+ * c) Since it's included in all source files, all source files
+ * need to be re-compiled
  *
- * d) Since it's included in f1.c and f2.c only, they need to be re-compiled only
+ * d) Since it's included in f1.c and f2.c only, they are the only
+ * source files that need to be re-compiled
  *
- * And re-linking the program applies to all.
+ * And re-linking the program applies to all (a, b, c, and d).
  *
  */
