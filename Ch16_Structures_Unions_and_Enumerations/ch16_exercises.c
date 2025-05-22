@@ -8,9 +8,10 @@
 // Q1
 
 /*
- * Yes, actually they are both legal on either individual bases or being together
- * as the scope of their members is limited to the structure only so they are not
- * available to the outside (including the struct name).
+ * Yes, actually they are both legal on either individual basis or
+ * being together as the scope of their members is limited to the
+ * enclosing bracses of the structure only so they are not available
+ * to the outside (including the struct name).
  *
  */
 
@@ -42,9 +43,6 @@ struct { double real, imaginary; } c1 = {0.0, 1.0}, c2 = {1.0, 0.0}, c3;
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// c)
 	c1 = c2;
 
@@ -74,38 +72,63 @@ struct complex
 // b)
 struct complex c1, c2, c3;
 
-// c)
+// c) Definition comes after main
 struct complex make_complex(double real, double imaginary);
 
-// d)
+// d) Definition comes after main
 struct complex add_complex(struct complex c1, struct complex c2);
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// test 1
 	c1 = make_complex(1.0, 2.0);
 	c2 = make_complex(2.0, 1.0);
 
 	c3 = add_complex(c1, c2);
-	printf("c3 = %lf + %lf i\n", c3.real, c3.imaginary);
+	printf("c3 = %g + %gi\n", c3.real, c3.imaginary);
 
 	return 0;
 }
 
-// c)
+// c) These macros are to choose your preferred answer
+// Either the normal method (C89/C90) or the compound literal (C99)
+#define Q3_C_SOL1
+#ifdef Q3_C_SOL1
+
 struct complex make_complex(double real, double imaginary)
 {
 	return (struct complex) {real, imaginary}; // c99
 }
 
-// d)
+#elif defined(Q3_C_SOL2)
+
+struct complex make_complex(double real, double imaginary)
+{
+	struct complex c = {real, imaginary};
+	return c;
+}
+
+#endif
+
+// d) These macros are to choose your preferred answer
+// Either the normal method (C89/C90) or the compound literal (C99)
+#define Q3_D_SOL1
+#ifdef Q3_D_SOL1
+
 struct complex add_complex(struct complex c1, struct complex c2)
 {
 	return (struct complex) {c1.real + c2.real, c1.imaginary + c2.imaginary}; // c99
 }
+
+#elif defined(Q3_D_SOL2)
+
+struct complex add_complex(struct complex c1, struct complex c2)
+{
+	struct complex result = {c1.real + c2.real, c1.imaginary + c2.imaginary};
+	return result;
+}
+
+#endif
 */
 
 //----------------------------------
@@ -131,15 +154,12 @@ Complex add_complex(Complex c1, Complex c2);
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// test 1
 	c1 = make_complex(1.0, 2.0);
 	c2 = make_complex(2.0, 1.0);
 
 	c3 = add_complex(c1, c2);
-	printf("c3 = %lf + %lf i\n", c3.real, c3.imaginary);
+	printf("c3 = %g + %gi\n", c3.real, c3.imaginary);
 
 	return 0;
 }
@@ -176,9 +196,6 @@ int compare_dates(struct date d1, struct date d2);
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// test 1
 	struct date d1 = {3, 10, 2020};
 	struct date d2 = {3, 10, 2020};
@@ -194,52 +211,36 @@ int main(void)
 
 	// date comparison
 	int compare_code = compare_dates(d1, d2);
-	if(compare_code == 1)
-	{
+	if (compare_code == 1)
 		printf("d1 comes after d2\n");
-	}
-	else if(compare_code == -1)
-	{
+	else if (compare_code == -1)
 		printf("d1 comes before d2\n");
-	}
-	else if(compare_code == 0)
-	{
+	else if (compare_code == 0)
 		printf("d1 and d2 are identical\n");
-	}
+
 	printf("\n");
 
 
 	compare_code = compare_dates(d1, d3);
-	if(compare_code == 1)
-	{
+	if (compare_code == 1)
 		printf("d1 comes after d3\n");
-	}
-	else if(compare_code == -1)
-	{
+	else if (compare_code == -1)
 		printf("d1 comes before d3\n");
-	}
-	else if(compare_code == 0)
-	{
+	else if (compare_code == 0)
 		printf("d1 and d3 are identical\n");
-	}
+
 	printf("\n");
 
 
 	compare_code = compare_dates(d1, d4);
-	if(compare_code == 1)
-	{
+	if (compare_code == 1)
 		printf("d1 comes after d4\n");
-	}
-	else if(compare_code == -1)
-	{
+	else if (compare_code == -1)
 		printf("d1 comes before d4\n");
-	}
-	else if(compare_code == 0)
-	{
+	else if (compare_code == 0)
 		printf("d1 and d4 are identical\n");
-	}
-	printf("\n");
 
+	printf("\n");
 
 	return 0;
 }
@@ -249,17 +250,13 @@ int day_of_year(struct date d)
 	int days_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 	// Detect Leap year
-	if(!(d.year % 400) || (!(d.year % 4) && (d.year % 100)))
-	{
+	if (!(d.year % 400) || (!(d.year % 4) && (d.year % 100)))
 		days_month[1] = 29;
-	}
 
 	int total_days = d.day;
 
-	while(d.month-- > 1)
-	{
+	while (d.month-- > 1)
 		total_days += days_month[d.month - 1];
-	}
 
 	return total_days;
 }
@@ -267,21 +264,21 @@ int day_of_year(struct date d)
 
 int compare_dates(struct date d1, struct date d2)
 {
-	if(d1.year > d2.year)
+	if (d1.year > d2.year)
 		return 1;
-	else if(d1.year < d2.year)
+	else if (d1.year < d2.year)
 		return -1;
 	else
 	{
-		if(d1.month > d2.month)
+		if (d1.month > d2.month)
 			return 1;
-		else if(d1.month < d2.month)
+		else if (d1.month < d2.month)
 			return -1;
 		else
 		{
-			if(d1.day > d2.day)
+			if (d1.day > d2.day)
 				return 1;
-			else if(d1.day < d2.day)
+			else if (d1.day < d2.day)
 				return -1;
 		}
 	}
@@ -305,9 +302,6 @@ struct time split_time(long total_seconds);
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// test
 	struct time t1 = split_time(9600);
 	struct time t2 = split_time(11500);
@@ -341,7 +335,7 @@ struct time split_time(long total_seconds)
 
 struct fraction
 {
-	int numerator, denomenator;
+	int numerator, denominator;
 };
 
 // a)
@@ -361,47 +355,41 @@ struct fraction multiply(struct fraction f1, struct fraction f2);
 struct fraction divide(struct fraction f1, struct fraction f2);
 
 
-
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// test
 	struct fraction f1 = {1, 2}, f2 = {3, 4}, f3 = {9, 6}, f4;
 
 	f4 = simplify(f3);
-	printf("%d/%d = %d/%d\n", f3.numerator, f3.denomenator, f4.numerator, f4.denomenator);
+	printf("%d/%d = %d/%d\n", f3.numerator, f3.denominator, f4.numerator, f4.denominator);
 
 	f4 = add(f1, f2);
-	printf("%d/%d + %d/%d = %d/%d\n", f1.numerator, f1.denomenator,
-			f2.numerator, f2.denomenator, f4.numerator, f4.denomenator);
+	printf("%d/%d + %d/%d = %d/%d\n", f1.numerator, f1.denominator,
+			f2.numerator, f2.denominator, f4.numerator, f4.denominator);
 
 	f4 = subtract(f3, f1);
-	printf("%d/%d - %d/%d = %d/%d\n", f3.numerator, f3.denomenator,
-				f1.numerator, f1.denomenator, f4.numerator, f4.denomenator);
+	printf("%d/%d - %d/%d = %d/%d\n", f3.numerator, f3.denominator,
+				f1.numerator, f1.denominator, f4.numerator, f4.denominator);
 
 	f4 = subtract(f1, f3);
-	printf("%d/%d - %d/%d = %d/%d\n", f1.numerator, f1.denomenator,
-				f3.numerator, f3.denomenator, f4.numerator, f4.denomenator);
+	printf("%d/%d - %d/%d = %d/%d\n", f1.numerator, f1.denominator,
+				f3.numerator, f3.denominator, f4.numerator, f4.denominator);
 
 	f4 = multiply(f2, f3);
-	printf("%d/%d * %d/%d = %d/%d\n", f2.numerator, f2.denomenator,
-				f3.numerator, f3.denomenator, f4.numerator, f4.denomenator);
+	printf("%d/%d * %d/%d = %d/%d\n", f2.numerator, f2.denominator,
+				f3.numerator, f3.denominator, f4.numerator, f4.denominator);
 
 	f4 = divide(f2, f3);
-	printf("%d/%d / %d/%d = %d/%d\n", f2.numerator, f2.denomenator,
-				f3.numerator, f3.denomenator, f4.numerator, f4.denomenator);
-
+	printf("%d/%d / %d/%d = %d/%d\n", f2.numerator, f2.denominator,
+				f3.numerator, f3.denominator, f4.numerator, f4.denominator);
 
 	return 0;
 }
 
 // a)
-
 int gcd(int a, int b)
 {
-	if(b == 0)
+	if (b == 0)
 		return a;
 
 	return gcd(b, a % b);
@@ -409,9 +397,9 @@ int gcd(int a, int b)
 
 struct fraction simplify(struct fraction f)
 {
-	int com_factor = gcd(f.numerator, f.denomenator);
+	int com_factor = gcd(f.numerator, f.denominator);
 	f.numerator /= com_factor;
-	f.denomenator /= com_factor;
+	f.denominator /= com_factor;
 
 	return f;
 }
@@ -420,8 +408,8 @@ struct fraction simplify(struct fraction f)
 struct fraction add(struct fraction f1, struct fraction f2)
 {
 	struct fraction f;
-	f.denomenator = f1.denomenator * f2.denomenator;
-	f.numerator = f1.numerator * f2.denomenator + f2.numerator * f1.denomenator;
+	f.denominator = f1.denominator * f2.denominator;
+	f.numerator = f1.numerator * f2.denominator + f2.numerator * f1.denominator;
 
 	return simplify(f);
 }
@@ -438,7 +426,7 @@ struct fraction subtract(struct fraction f1, struct fraction f2)
 // d)
 struct fraction multiply(struct fraction f1, struct fraction f2)
 {
-	struct fraction f = {f1.numerator * f2.numerator, f1.denomenator * f2.denomenator};
+	struct fraction f = {f1.numerator * f2.numerator, f1.denominator * f2.denominator};
 
 	return simplify(f);
 }
@@ -446,7 +434,7 @@ struct fraction multiply(struct fraction f1, struct fraction f2)
 // e)
 struct fraction divide(struct fraction f1, struct fraction f2)
 {
-	struct fraction f = {f1.numerator * f2.denomenator, f1.denomenator * f2.numerator};
+	struct fraction f = {f1.numerator * f2.denominator, f1.denominator * f2.numerator};
 
 	return simplify(f);
 }
@@ -457,9 +445,9 @@ struct fraction divide(struct fraction f1, struct fraction f2)
 // Q8
 
 /*
- * a) struct color MAGNETA = {255, 0, 255};
+ * a) const struct color MAGNETA = {255, 0, 255};
  *
- * b) struct color MAGNETA = {.red = 255, .blue = 255};
+ * b) const struct color MAGNETA = {.red = 255, .blue = 255};
  *
  */
 
@@ -494,9 +482,6 @@ struct color darker(struct color c);
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// test
 	struct color c1, c2, c3, c4, c5, c6, c7, br_c4, br_c7, dk_c5;
 
@@ -535,8 +520,6 @@ int main(void)
 	printf("darker c5 = (%d, %d, %d)\n", dk_c5.red, dk_c5.green, dk_c5.blue);
 	printf("\n");
 
-
-
 	return 0;
 }
 
@@ -560,10 +543,8 @@ int getRed(struct color c)
 // c)
 bool equal_color(struct color color1, struct color color2)
 {
-	if(color1.red == color2.red && color1.green == color2.green && color1.blue == color2.blue)
-	{
+	if (color1.red == color2.red && color1.green == color2.green && color1.blue == color2.blue)
 		return true;
-	}
 
 	return false;
 }
@@ -571,7 +552,7 @@ bool equal_color(struct color color1, struct color color2)
 // d)
 struct color brighter(struct color c)
 {
-	if(!c.red && !c.green && !c.blue)
+	if (!c.red && !c.green && !c.blue)
 	{
 		c.red = c.green = c.blue = 3;
 	}
@@ -623,9 +604,6 @@ bool belong_to_rect(struct rectangle r, struct point p);
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// test (rectangle of length = 8, width = 6 and lies on the 1st quad)
 	struct point UL = {0, 6}, LR = {8, 0}, cp, p1, p2;
 
@@ -650,7 +628,6 @@ int main(void)
 			r.lower_right.y, r_dash.upper_left.x, r_dash.upper_left.y,
 			r_dash.lower_right.x, r_dash.lower_right.y);
 
-
 	// d)
 	p1.x = 0;
 	p1.y = 0;
@@ -658,7 +635,6 @@ int main(void)
 	p2.y = 6;
 	printf("p1 %s belong to rectangle r\n", belong_to_rect(r, p1) ? "does" : "does not");
 	printf("p2 %s belong to rectangle r\n", belong_to_rect(r, p2) ? "does" : "does not");
-
 
 	return 0;
 }
@@ -676,12 +652,25 @@ struct point center_rect(struct rectangle r)
 	(r.lower_right.y + r.upper_left.y) / 2};
 }
 
-// c)
+// c) Two possible solutions
+#define Q10_C_SOL1
+#ifdef Q10_C_SOL1
 struct rectangle move_rect(struct rectangle r, int x, int y)
 {
 	return (struct rectangle) {(struct point) {r.upper_left.x + x, r.upper_left.y + y},
 		(struct point) {r.lower_right.x + x, r.lower_right.y + y}};
 }
+
+#elif defined(Q10_C_SOL2)
+struct rectangle move_rect(struct rectangle r, int x, int y)
+{
+	r.lower_right.x += x;
+	r.lower_right.y += y;
+	r.upper_left.x += x;
+	r.upper_left.y += y;
+	return r;
+}
+#endif
 
 // d)
 bool belong_to_rect(struct rectangle r, struct point p)
@@ -774,33 +763,38 @@ struct shape scale_shape(struct shape s, double scale);
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// test
 	struct shape r, c;
+	int x, y, scale_val;
 
 	r.shape_kind = RECTANGLE;
 	r.center = (struct point) {4, 3};
 	r.u.rectangle.width = 8;
 	r.u.rectangle.height = 6;
+	x = 2;
+	y = 2;
 
 	c.shape_kind = CIRCLE;
 	c.center = (struct point) {0, 0};
 	c.u.circle.radius = 5;
+	scale_val = 2;
 
 	// a)
-	printf("Area of rectangle = %lf\n\n", area_shape(r));
-	printf("Area of circle = %lf\n\n", area_shape(c));
+	printf("Area of rectangle = %g\n\n", area_shape(r));
+	printf("Area of circle = %g\n\n", area_shape(c));
 
 	// b)
-	r = move_shape(r, 2, 2);
-	printf("Now the center of the rectangle is (%d, %d)\n\n", r.center.x, r.center.y);
+	printf("After moving r %+d units in the x-direction ", x);
+	printf("and %+d units in the y-direction:\n", y);
+	printf("The center of r was (%d, %d)\n", r.center.x, r.center.y);
+	r = move_shape(r, x, y);
+	printf("Now the center of the r is (%d, %d)\n\n", r.center.x, r.center.y);
 
 	// c)
-	c = scale_shape(c, 2);
-	printf("Now the radius of the circle is %d\n\n", c.u.circle.radius);
-
+	printf("After scaling c by a value of %+d:\n", scale_val);
+	printf("The radius of c was %d\n", c.u.circle.radius);
+	c = scale_shape(c, scale_val);
+	printf("Now the radius of c is %d\n\n", c.u.circle.radius);
 
 	return 0;
 }
@@ -808,16 +802,14 @@ int main(void)
 // a)
 double area_shape(struct shape s)
 {
-	double area = 0.0; // Indication that shape_kind is not even set
+	double area;
 
-	if(s.shape_kind == RECTANGLE)
-	{
+	if (s.shape_kind == RECTANGLE)
 		area = s.u.rectangle.height * s.u.rectangle.width;
-	}
-	else if(s.shape_kind == CIRCLE)
-	{
+	else if (s.shape_kind == CIRCLE)
 		area = PI * s.u.circle.radius * s.u.circle.radius;
-	}
+	else
+		area = 0.0; // Error indication
 
 	return area;
 }
@@ -833,15 +825,13 @@ struct shape move_shape(struct shape s, int x, int y)
 // c)
 struct shape scale_shape(struct shape s, double scale)
 {
-	if(s.shape_kind == RECTANGLE)
+	if (s.shape_kind == RECTANGLE)
 	{
 		s.u.rectangle.height *= scale;
 		s.u.rectangle.width *= scale;
 	}
-	else if(s.shape_kind == CIRCLE)
-	{
+	else if (s.shape_kind == CIRCLE)
 		s.u.circle.radius *= scale;
-	}
 
 	return s;
 }
@@ -856,7 +846,7 @@ struct shape scale_shape(struct shape s, double scale)
  * b) typedef enum
  *    {
  *    	SATURDAY, SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
- *    } week_days;
+ *    } Week_days;
  *
  */
 
@@ -866,8 +856,10 @@ struct shape scale_shape(struct shape s, double scale)
 /*
  * a) true
  *
- * b) false --> 1) They have block scope not global scope
- *              2) They are not replaced by the preprocessor hence appear in debugging
+ * b) false
+ * 1) Enums are subject to C's scope rule, unlike #define directives
+ * that have global scope no matter wherever they are defined
+ * 2) They are not replaced by the preprocessor hence appear in debugging
  *
  * c) true
  *
@@ -958,16 +950,13 @@ int x = 0, y = 0;
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	// test (goal: achieve coordinates(4, 3))
 	direction = EAST;
 	update_coordinates();
 	update_coordinates();
 	update_coordinates();
 	update_coordinates();
-	direction = NORTH;
+	direction = SOUTH;
 	update_coordinates();
 	update_coordinates();
 	update_coordinates();
@@ -980,10 +969,10 @@ int main(void)
 void update_coordinates(void)
 {
 	// Required statement
-	switch(direction)
+	switch (direction)
 	{
-	case NORTH: y++; break;
-	case SOUTH: y--; break;
+	case NORTH: y--; break;
+	case SOUTH: y++; break;
 	case EAST: x++; break;
 	case WEST: x--; break;
 	}
@@ -1018,17 +1007,14 @@ enum chess_pieces {KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN};
 // b)
 const int piece_value[] =
 {
-		[KING] = 200, [QUEEN] = 9, [ROOK] = 5, [BISHOP] = 3, [KNIGHT] = 3, [PAWN] = 1
+	[KING] = 200, [QUEEN] = 9, [ROOK] = 5, [BISHOP] = 3, [KNIGHT] = 3, [PAWN] = 1
 };
 
 
 int main(void)
 {
-	setvbuf(stdout, NULL, _IONBF, 0);
-	setvbuf(stderr, NULL, _IONBF, 0);
-
 	int i;
-	for(i = 0; i < 6; i++)
+	for (i = 0; i < 6; i++)
 		printf("piece_value[%d] = %d\n", i, piece_value[i]);
 
 	return 0;
