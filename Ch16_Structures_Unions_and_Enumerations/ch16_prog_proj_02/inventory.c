@@ -43,13 +43,13 @@ void print(void);
 int main(void)
 {
 	char code;
-	for(;;)
+	for (;;)
 	{
 		printf("Enter operation code: ");
 		scanf(" %c", &code);
-		while(getchar() != '\n'); // skips to the end of line
+		while (getchar() != '\n'); // skips to the end of line
 
-		switch(code)
+		switch (code)
 		{
 		case 'i': insert(); break;
 		case 's': search(); break;
@@ -76,8 +76,8 @@ int main(void)
 int find_part(int number)
 {
 	int i;
-	for(i = 0; i < num_parts; i++)
-		if(inventory[i].number == number)
+	for (i = 0; i < num_parts; i++)
+		if (inventory[i].number == number)
 			return i;
 
 	return -1;
@@ -96,7 +96,7 @@ void insert(void)
 {
 	int part_number;
 
-	if(num_parts == MAX_PARTS)
+	if (num_parts == MAX_PARTS)
 	{
 		printf("Database is full; can't add more parts.\n");
 		return;
@@ -121,7 +121,6 @@ void insert(void)
 	num_parts++;
 }
 
-
 /**********************************************************
  * search: Prompts the user to enter a part number, then  *
  *         looks up the part in the database. If the part *
@@ -138,7 +137,7 @@ void search(void)
 	scanf("%d", &number);
 
 	i = find_part(number);
-	if(i >= 0)
+	if (i >= 0)
 	{
 		printf("Part name: %s\n", inventory[i].name);
 		printf("Quantity on hand: %d\n", inventory[i].on_hand);
@@ -164,7 +163,7 @@ void update(void)
 	scanf("%d", &number);
 	i = find_part(number);
 
-	if(i >= 0)
+	if (i >= 0)
 	{
 		printf("Enter change in quantity on hand: ");
 		scanf("%d", &change);
@@ -173,7 +172,6 @@ void update(void)
 	else
 		printf("Part not found.\n");
 }
-
 
 /***********************************************************
  * print: Prints a listing of all parts in the database,   *
@@ -185,43 +183,49 @@ void update(void)
 
 void print(void)
 {
-	int i, sorted_i[num_parts];
+	int i, sorted_indices_arr[num_parts];
 
-	for(i = 0; i < num_parts; i++)
-	{
-		sorted_i[i] = i;
-	}
+	for (i = 0; i < num_parts; i++)
+		sorted_indices_arr[i] = i;
 
-	sort_indices(sorted_i, num_parts);
+	sort_indices(sorted_indices_arr, num_parts);
 
 	printf("Part Number   Part Name                  Quantity on Hand\n");
 
-	for(i = 0; i < num_parts; i++)
-		printf("%7d       %-25s%11d\n", inventory[sorted_i[i]].number,
-				inventory[sorted_i[i]].name, inventory[sorted_i[i]].on_hand);
+	for (i = 0; i < num_parts; i++)
+		printf("%7d       %-25s%11d\n", inventory[sorted_indices_arr[i]].number,
+				inventory[sorted_indices_arr[i]].name, inventory[sorted_indices_arr[i]].on_hand);
 }
 
+/***********************************************************
+ * sort_indices: Sorts the indices of the inventory parts  *
+ *               array in a separate array a, with respect *
+ *               to the part number, in an ascending       *
+ *               order.                                    *
+ *                                                         *
+ ***********************************************************/
 
 void sort_indices(int a[], int n)
 {
 	if(n == 1)
 		return;
 
-	int i, max_val = inventory[a[0]].number, max_index = a[0], max_index_index = 0;
+	//int max_val = inventory[a[0]].number, max_index = a[0], max_index_index = 0;
+	int i, max_number = inventory[a[0]].number, max_inventory_index = a[0], max_a_index = 0;
 
-	for(i = 1; i < n; i++)
+	for (i = 1; i < n; i++)
 	{
-		if(inventory[a[i]].number > max_val)
+		if (inventory[a[i]].number > max_number)
 		{
-			max_val = inventory[a[i]].number;
-			max_index = a[i];
-			max_index_index = i;
+			max_number = inventory[a[i]].number;
+			max_inventory_index = a[i];
+			max_a_index = i;
 		}
 	}
 
 	// Moving to the last position
-	a[max_index_index] = a[n - 1];
-	a[n - 1] = max_index;
+	a[max_a_index] = a[n - 1];
+	a[n - 1] = max_inventory_index;
 
 	// Recursion
 	sort_indices(a, n - 1);
