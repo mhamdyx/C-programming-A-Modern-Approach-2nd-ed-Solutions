@@ -13,7 +13,7 @@ void *my_malloc(size_t size)
 {
 	void *ptr = malloc(size);
 
-	if(ptr == NULL)
+	if (ptr == NULL)
 	{
 		printf("Memory Allocation Failed.\n");
 		exit(EXIT_FAILURE);
@@ -32,7 +32,7 @@ void *my_malloc(size_t size)
 #include <stdlib.h>
 #include <string.h>
 
-char *duplicate(char *str);
+char *duplicate(const char *str);
 
 int main(void)
 {
@@ -42,15 +42,14 @@ int main(void)
 
 	printf("str1: %s\nstr2: %s\n", str1, str2);
 
-
 	return 0;
 }
 
-char *duplicate(char *str)
+char *duplicate(const char *str)
 {
 	char *dup_str = malloc(strlen(str) + 1);
 
-	if(dup_str != NULL)
+	if (dup_str != NULL)
 		strcpy(dup_str, str);
 
 	return dup_str;
@@ -68,25 +67,22 @@ int *create_array(int n, int initial_value);
 
 int main(void)
 {
-	int *arr = create_array(5, 10);
+	int i, *arr = create_array(5, 10);
 
-	for(int i = 0; i < 5; i++)
-	{
+	for (i = 0; i < 5; i++)
 		printf("arr[%d] = %d\n", i, arr[i]);
-	}
 
 	return 0;
 }
 
-
 int *create_array(int n, int initial_value)
 {
-	int *arr = malloc(n * sizeof(int));
+	int i, *arr = malloc(n * sizeof(int));
 
 	if(arr == NULL)
 		return NULL;
 
-	for(int i = 0; i < n; i++)
+	for (i = 0; i < n; i++)
 		arr[i] = initial_value;
 
 	return arr;
@@ -148,10 +144,9 @@ struct node
 	struct node *next;
 };
 
-// This function doesn't support removing the first node
-void delete_from_list(struct node *list, int n);
+struct node *delete_from_list(struct node *list, int n);
 
-// Test functions
+// Helper functions
 struct node *add_to_list(struct node *list, int n);
 void print_list(struct node *list);
 
@@ -159,35 +154,44 @@ int main(void)
 {
 	struct node *list = NULL;
 
+	printf("Adding 5, 4, 3, 2, & 1 to the list...\n");
 	list = add_to_list(list, 5);
 	list = add_to_list(list, 4);
 	list = add_to_list(list, 3);
 	list = add_to_list(list, 2);
 	list = add_to_list(list, 1);
+	print_list(list);
 
-	delete_from_list(list, 3);
-	delete_from_list(list, 5);
-
+	printf("\nDeleting 3 & 5 from the list...\n");
+	list = delete_from_list(list, 3);
+	list = delete_from_list(list, 5);
 	print_list(list);
 
 	return 0;
 }
 
-void delete_from_list(struct node *list, int n)
+struct node *delete_from_list(struct node *list, int n)
 {
-	struct node *temp;
+	struct node *temp_node = list;
 
-	for(temp = NULL; list != NULL && list->value != n; temp = list, list = list->next);
-
-	if(list != NULL)
+	if (list->value == n)
 	{
-		if(list->next == NULL)
-			temp->next = NULL;
-		else
-			temp->next = list->next;
-
-		free(list);
+		list = list->next;
+		free(temp_node);
+		return list;
 	}
+
+	while (temp_node->next != NULL && temp_node->next->value != n)
+		temp_node = temp_node->next;
+
+	if (temp_node->next != NULL && temp_node->next->value == n)
+	{
+		struct node *deleted_node = temp_node->next;
+		temp_node->next = temp_node->next->next;
+		free(deleted_node);
+	}
+
+	return list;
 }
 
 struct node *add_to_list(struct node *list, int n)
@@ -196,7 +200,7 @@ struct node *add_to_list(struct node *list, int n)
 
 	new_node = malloc(sizeof(struct node));
 
-	if(new_node == NULL)
+	if (new_node == NULL)
 	{
 		printf("Error: malloc failed to add_to_list\n");
 		exit(EXIT_FAILURE);
@@ -209,43 +213,12 @@ struct node *add_to_list(struct node *list, int n)
 
 void print_list(struct node *list)
 {
-	while(list != NULL)
-	{
-		printf("%d\t", list->value);
-		list = list->next;
-	}
+	printf("List content:");
 
-	printf("\n");
-}
-*/
+	for (; list != NULL; list = list->next)
+		printf("  %d", list->value);
 
-/*
-struct node *delete_from_list(struct node *list, int n)
-{
-	struct node *temp_node = list, *prev_node;
-
-	if(temp_node != NULL && temp_node->value == n)
-		list = list->next;
-	else
-	{
-		while(temp_node->next != NULL)
-		{
-			if(temp_node->next->value == n)
-			{
-				prev_node = temp_node;
-				temp_node = temp_node->next;
-				prev_node->next = temp_node->next;
-				break;
-			}
-			else
-			{
-				temp_node = temp_node->next;
-			}
-		}
-	}
-
-	free(temp_node);
-	return list;
+	putchar('\n');
 }
 */
 
@@ -254,14 +227,14 @@ struct node *delete_from_list(struct node *list, int n)
 // Q7
 
 /*
- * After freeing the memory pointed to by p, p becomes a dangling pointer, meaning that
- * you can't access the memory that it points to, so the statement p = p->next is
- * undefined behavious because p still points to deallocated memory and we are trying to
- * access it by using p->next
+ * After freeing the memory pointed to by p, p becomes a dangling pointer, 
+ * meaning that you can't access the memory that it points to, so the 
+ * statement p = p->next is undefined behavior because p still points to 
+ * deallocated memory and we are trying to access it by using p->next
  *
  * How to fix: Use another trailing pointer
  *
- * for(p = first; p != NULL; ) { temp = p; p = p->next; free(temp); }
+ * for (p = first; p != NULL; ) { temp = p; p = p->next; free(temp); }
  *
  */
 
@@ -273,63 +246,53 @@ struct node *delete_from_list(struct node *list, int n)
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define STACK_SIZE 100
-
-//int contents[STACK_SIZE]; // was in stack.h (used for testing)
-int top = 0; // was in stack.h (used for testing)
-
 struct node
 {
 	int value;
 	struct node *next;
 } *contents = NULL; // Empty list (Top of the stack)
 
-
-
+// Essential stack functions
 void make_empty(void);
-
 bool is_empty(void);
-
 bool push(int i);
-
 int pop(void);
 
-void stack_underflow(void); // Extra function for testing
-
-void print_stack(struct node *list); // Extra function for testing
-
+// Helper functions (extra functions for testing)
+void stack_underflow(void); // Error handling for pop()
+void print_stack(void); // Keep track of the current stack content
 
 int main(void)
 {
 	// Make a list in this sequence: 1->2->3->4->5
+	printf("Pushing 5, 4, 3, 2, & 1 to the stack...\n");
 	push(5);
 	push(4);
 	push(3);
 	push(2);
 	push(1);
-
-	print_list(contents);
+	print_stack();
 
 	// Popping twice
+	printf("\nPopping the top two items from the stack...\n");
 	pop();
 	pop();
-
-	print_list(contents);
+	print_stack();
 
 	// Making the list empty
+	printf("\nMaking the whole list empty...\n");
 	make_empty();
-	print_list(contents);
+	print_stack();
 
 	return 0;
 }
-
 
 // definitions in stack.c
 void make_empty(void)
 {
 	struct node *temp;
 
-	while(contents != NULL)
+	while (contents != NULL)
 	{
 		temp = contents;
 		contents = contents->next;
@@ -337,18 +300,16 @@ void make_empty(void)
 	}
 }
 
-
 bool is_empty(void)
 {
 	return contents == NULL;
 }
 
-
 bool push(int i)
 {
 	struct node *new_node = malloc(sizeof(struct node));
 
-	if(new_node == NULL)
+	if (new_node == NULL)
 		return false;
 
 	new_node->value = i;
@@ -358,22 +319,21 @@ bool push(int i)
 	return true;
 }
 
-
 int pop(void)
 {
-	if(is_empty())
-	{
-		stack_underflow();
-	}
+	struct node *temp;
+	int temp_val;
 
-	struct node *temp = contents;
-	int temp_val = temp->value;
+	if (is_empty())
+		stack_underflow();
+
+	temp = contents;
+	temp_val = temp->value;
 	contents = contents->next;
 	free(temp);
 
 	return temp_val;
 }
-
 
 void stack_underflow(void)
 {
@@ -381,21 +341,15 @@ void stack_underflow(void)
 	exit(EXIT_FAILURE);
 }
 
-void print_stack(struct node *list)
+void print_stack(void)
 {
-	if(is_empty())
-	{
-		printf("Stack is empty\n");
-		return;
-	}
+	struct node *list = contents;
 
-	while(list != NULL)
-	{
-		printf("%d\t", list->value);
-		list = list->next;
-	}
+	printf("List content: ");
+	for (; list != NULL; list = list->next)
+		printf("%d->", list->value);
 
-	printf("\n");
+	printf("NULL\n");
 }
 */
 
@@ -406,7 +360,7 @@ void print_stack(struct node *list)
 /*
  * True. (&x) acts as pointer to x so both statements are equivalent.
  *
- * Proof: (&x)->a = *(&x).a = *&x.a = *&(x.a) = x.a
+ * Proof: (&x)->a = (*(&x)).a = (*&x).a = (x).a = x.a
  *
  */
 
@@ -455,6 +409,7 @@ int main(void)
 	int val;
 
 	// 3->1->3->3->2->3->4->5->3: no(3) = 5
+	printf("Adding 3, 1, 3, 3, 2, 3, 4, 5, & 3 to the list...\n");
 	list = add_to_list(list, 3);
 	list = add_to_list(list, 5);
 	list = add_to_list(list, 4);
@@ -475,11 +430,9 @@ int count_occurrences(struct node *list, int n)
 {
 	int counter = 0;
 
-	for(; list != NULL; list = list->next)
-	{
-		if(list->value == n)
+	for (; list != NULL; list = list->next)
+		if (list->value == n)
 			counter++;
-	}
 
 	return counter;
 }
@@ -491,7 +444,7 @@ struct node *add_to_list(struct node *list, int n)
 
 	new_node = malloc(sizeof(struct node));
 
-	if(new_node == NULL)
+	if (new_node == NULL)
 	{
 		printf("Error: malloc failed to add_to_list\n");
 		exit(EXIT_FAILURE);
@@ -520,13 +473,16 @@ struct node *find_last(struct node *list, int n);
 
 struct node *add_to_list(struct node *list, int n); // Extra for testing
 
-void print_node_and_next(struct node *list); // Extra for testing
+void print_list(struct node *list); // Extra for testing
 
 int main(void)
 {
-	struct node *list = NULL; // List is empty at first
+	struct node *p, *list = NULL; // List is empty at first
+	char ch;
+	int i;
 
 	// 3->1->3->3->2->3->4->5->3
+	printf("Adding 3, 1, 3, 3, 2, 3, 4, 5, & 3 to the list...\n");
 	list = add_to_list(list, 3);
 	list = add_to_list(list, 5);
 	list = add_to_list(list, 4);
@@ -536,23 +492,17 @@ int main(void)
 	list = add_to_list(list, 3);
 	list = add_to_list(list, 1);
 	list = add_to_list(list, 3);
+	print_list(list);
 
-	struct node *p_1, *p_2, *p_3, *p_4, *p_5, *p_6;
-	p_1 = find_last(list, 1);
-	p_2 = find_last(list, 2);
-	p_3 = find_last(list, 3);
-	p_4 = find_last(list, 4);
-	p_5 = find_last(list, 5);
-	p_6 = find_last(list, 6);
+	printf("\nFinding the last occurrence of list items...\n");
+	printf("Printing a list starting from the last occurrence of:\n");
 
-	// We will know their positions by printing what's next to them
-	print_node_and_next(p_1);
-	print_node_and_next(p_2);
-	print_node_and_next(p_3);
-	print_node_and_next(p_4);
-	print_node_and_next(p_5);
-	print_node_and_next(p_6);
-
+	for (i = 1, ch = 'a'; i <= 6; i++, ch++)
+	{
+		printf("%c) %d ----> ", ch, i);
+		p = find_last(list, i);
+		print_list(p);
+	}
 
 	return 0;
 }
@@ -561,11 +511,9 @@ struct node *find_last(struct node *list, int n)
 {
 	struct node *last_n = NULL;
 
-	for(; list != NULL; list = list->next)
-	{
-		if(list->value == n)
+	for (; list != NULL; list = list->next)
+		if (list->value == n)
 			last_n = list;
-	}
 
 	return last_n;
 }
@@ -576,8 +524,7 @@ struct node *add_to_list(struct node *list, int n)
 	struct node *new_node;
 
 	new_node = malloc(sizeof(struct node));
-
-	if(new_node == NULL)
+	if (new_node == NULL)
 	{
 		printf("Error: malloc failed to add_to_list\n");
 		exit(EXIT_FAILURE);
@@ -588,20 +535,14 @@ struct node *add_to_list(struct node *list, int n)
 	return new_node;
 }
 
-void print_node_and_next(struct node *list)
+void print_list(struct node *list)
 {
-	if(list == NULL)
-	{
-		printf("Node is not found!\n");
-		return;
-	}
+	printf("List content: ");
 
-	printf("%d -> ", list->value);
+	for (; list != NULL; list = list->next)
+		printf("%d->", list->value);
 
-	if(list->next != NULL)
-		printf("%d\n", list->next->value);
-	else
-		printf("\n");
+	printf("NULL\n");
 }
 */
 
@@ -610,20 +551,20 @@ void print_node_and_next(struct node *list)
 // Q13
 
 /*
- * This functions works correctly for in between nodes only. It doesn't handle
- * the cases of adding the node at first or at last.
+ * This functions works correctly for the in between nodes only, but it
+ * doesn't handle the cases of adding the node at first or at last.
  *
  * How is that?
  * At first: The condition in the while loop fails so the prev remains NULL
- * then: prev->next = new_node; fails because prev is a dangling pointer that
+ * then: prev->next = new_node; fails because prev is a dangling pointer, so
  * we can't access its memory to use assignment
  *
  * Fix: After the loop, we check if prev is NULL or not
  *
- *
- * At last: The condition itself becomes an error as cur became a dangling poninter
- * (of walue NULL) in the previous iteration. So, accessing its memory to check the
- * value member is undefined behavior leading to a program crash
+ * At last: The condition itself becomes an error as cur became a dangling
+ * pointer (of value NULL) in the previous iteration, so accessing its
+ * memory to check the value member is an undefined behavior leading to
+ * a program crash
  *
  * Fix: We add another condition in the loop to check cur to stop when it becomes NULL
  * to mark the ending of the list without accessing its memory content.
@@ -649,11 +590,10 @@ struct node *create_node(int n); // Extra for testing
 int main(void)
 {
 	struct node *list = NULL; // List is empty at first
-
+	struct node *temp;
 
 	// 3->1->3->3->2->3->4->5->3
-
-	struct node *temp;
+	printf("Adding 3, 1, 3, 3, 2, 3, 4, 5, & 3 to an ordered list...\n");
 	temp = create_node(3);
 	list = insert_into_ordered_list(list, temp);
 	temp = create_node(5);
@@ -681,42 +621,43 @@ struct node *insert_into_ordered_list(struct node *list, struct node *new_node)
 {
 	struct node *cur = list, *prev = NULL;
 
-	while(cur != NULL // Last node case
-			&& cur->value <= new_node->value)
+	// Handling last node case
+	while (cur != NULL && cur->value <= new_node->value)
 	{
 		prev = cur;
 		cur = cur->next;
 	}
 
-	if(prev == NULL) // First node case
-	{
-		new_node->next = list;
+	if (prev == NULL) // Handling first node case
 		list = new_node;
-	}
 	else
-	{
 		prev->next = new_node;
-		new_node->next = cur;
-	}
 
+	new_node->next = cur;
 	return list;
 }
 
 
 void print_list(struct node *list)
 {
-	while(list != NULL)
-	{
-		printf("%d\t", list->value);
-		list = list->next;
-	}
+	printf("List content: ");
 
-	printf("\n");
+	for (; list != NULL; list = list->next)
+		printf("%d->", list->value);
+
+	printf("NULL\n");
 }
 
 struct node *create_node(int n)
 {
 	struct node *temp_node = malloc(sizeof(struct node));
+
+	if (temp_node == NULL)
+	{
+		printf("Error: malloc failed to create_node\n");
+		exit(EXIT_FAILURE);
+	}
+
 	temp_node->value = n;
 	return temp_node;
 }
@@ -739,22 +680,27 @@ void delete_from_list(struct node **list, int n);
 struct node *add_to_list(struct node *list, int n); // Extra for testing
 void print_list(struct node *list); // Extra for testing
 
-
 int main(void)
 {
 	struct node *list = NULL;
 
+	printf("Adding 5, 4, 3, 2, & 1 to the list...\n");
 	list = add_to_list(list, 5);
 	list = add_to_list(list, 4);
 	list = add_to_list(list, 3);
 	list = add_to_list(list, 2);
 	list = add_to_list(list, 1);
-
 	print_list(list);
+
+	printf("\nDeleting 3 from the list...\n");
 	delete_from_list(&list, 3);
 	print_list(list);
+
+	printf("\nDeleting 5 from the list...\n");
 	delete_from_list(&list, 5);
 	print_list(list);
+
+	printf("\nDeleting 1 from the list...\n");
 	delete_from_list(&list, 1);
 	print_list(list);
 
@@ -765,23 +711,18 @@ int main(void)
 void delete_from_list(struct node **list, int n)
 {
 	struct node *cur = *list, *prev = NULL;
-	for(; cur != NULL; prev = cur, cur = cur->next)
-		if(cur->value == n)
-			break;
+	for (; cur != NULL && cur->value != n; prev = cur, cur = cur->next);
 
-	if(cur == NULL) // n is not found
+	if (cur == NULL) // n is not found
 		return;
 
-	if(prev == NULL) // n is found at first
+	if (prev == NULL) // n is found at first
 		*list = (*list)->next;
 	else
-	{
 		prev->next = cur->next;
-	}
 
 	free(cur);
 }
-
 
 struct node *add_to_list(struct node *list, int n)
 {
@@ -800,17 +741,14 @@ struct node *add_to_list(struct node *list, int n)
 	return new_node;
 }
 
-
 void print_list(struct node *list)
 {
-	printf("List contents: ");
-	while(list != NULL)
-	{
-		printf("%d\t", list->value);
-		list = list->next;
-	}
+	printf("List content: ");
 
-	printf("\n");
+	for (; list != NULL; list = list->next)
+		printf("%d->", list->value);
+
+	printf("NULL\n");
 }
 */
 
@@ -822,12 +760,16 @@ void print_list(struct node *list)
  * Output: 3
  *
  * How it works?
- * This program calls f2 number of times using the testing function f1 (through which
- * f2 is called) and stops when f2 returns 0. The input value that led to this result
- * is returned by the testing function f1.
+ * This program calls f2 number of times using the testing function f1
+ * (through which f2 is called) and stops when f2 returns 0. The input
+ * value that led to this result is returned by the testing function f1.
  *
  * Program sequence:
- * f1(f2) ---> n = 0 ---> f2(0), n = 1 ---> f2(1), n = 2 ---> f2(2), n = 3 ---> f2(3)
+ * f1(f2) --initialize--> n = 0
+ * f2(0) = -11 --iterate--> n = 1
+ * f2(1) = -10 --iterate--> n = 2
+ * f2(2) = -4 --iterate--> n = 3
+ * f2(3) = 0 (break from loop and return last value of n)
  *
  */
 
@@ -839,11 +781,12 @@ void print_list(struct node *list)
 
 int sum(int (*f)(int), int start, int end);
 
-int g(int n); // Extra for testing
+int g(int n); // Extra for testing (returns 2n)
 
 int main(void)
 {
 	// Summation of g(1) to g(4) which equals 20 according to g
+	printf("Taking the sum of g(1) to g(4), where g doubles the input...\n");
 	printf("Sum = %d\n", sum(g, 1, 4));
 
 	return 0;
@@ -851,9 +794,9 @@ int main(void)
 
 int sum(int (*f)(int), int start, int end)
 {
-	int total = 0;
+	int i, total = 0;
 
-	for(int i = start; i <= end; i++)
+	for (i = start; i <= end; i++)
 		total += (*f)(i);
 
 	return total;
@@ -913,6 +856,7 @@ int compare_parts(const void *p, const void *q)
 /*
 #include <stdio.h>
 #include <string.h>
+#define ARR_SIZE(arr) (sizeof(arr) / sizeof(*arr))
 
 // Simplified command functions (Extra for testing)
 void new_cmd(void) { printf("new_cmd is called\n"); }
@@ -924,7 +868,6 @@ void save_as_cmd(void) { printf("save_as_cmd is called\n"); }
 void save_all_cmd(void) { printf("save_all_cmd is called\n"); }
 void print_cmd(void) { printf("print_cmd is called\n"); }
 void exit_cmd(void) { printf("exit_cmd is called\n"); }
-
 
 struct
 {
@@ -944,7 +887,7 @@ file_cmd[] =
 		{"exit", exit_cmd}
 };
 
-
+// Questioned function
 void enter_cmd(char *cmd);
 
 int main(void)
@@ -960,9 +903,11 @@ int main(void)
 
 void enter_cmd(char *cmd)
 {
-	for(int i = 0; i < 9; i++)
+	int i;
+
+	for (i = 0; i < ARR_SIZE(file_cmd); i++)
 	{
-		if(!strcmp(cmd, file_cmd[i].cmd_name))
+		if (!strcmp(cmd, file_cmd[i].cmd_name))
 		{
 			file_cmd[i].cmd_pointer();
 			return;
