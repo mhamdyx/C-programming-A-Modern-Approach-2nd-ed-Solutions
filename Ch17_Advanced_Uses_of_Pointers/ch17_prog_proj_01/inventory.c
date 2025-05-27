@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "readline.h"
-
 #define NAME_LEN 25
 
 struct part
@@ -28,7 +27,6 @@ void search(void);
 void update(void);
 void print(void);
 
-
 /************************************************************
  * main: Prompts the user to enter an operation code, then  *
  *       calls a function to perfor the requested action.   *
@@ -42,13 +40,13 @@ int main(void)
 {
 	inventory = malloc(10 * sizeof(struct part));
 	char code;
-	for(;;)
+	for (;;)
 	{
 		printf("Enter operation code: ");
 		scanf(" %c", &code);
-		while(getchar() != '\n'); // skips to the end of line
+		while (getchar() != '\n'); // skips to the end of line
 
-		switch(code)
+		switch (code)
 		{
 		case 'i': insert(); break;
 		case 's': search(); break;
@@ -60,10 +58,8 @@ int main(void)
 		printf("\n");
 	}
 
-
 	return 0;
 }
-
 
 /*************************************************************
  * find_part: Looks up a part number in the inventory array. *
@@ -75,13 +71,12 @@ int main(void)
 int find_part(int number)
 {
 	int i;
-	for(i = 0; i < num_parts; i++)
-		if(inventory[i].number == number)
+	for (i = 0; i < num_parts; i++)
+		if (inventory[i].number == number)
 			return i;
 
 	return -1;
 }
-
 
 /****************************************************************
  * insert: Prompts the user for information about a new part    *
@@ -95,24 +90,24 @@ void insert(void)
 {
 	int part_number;
 
-	if(num_parts == max_parts)
+	if (num_parts == max_parts)
 	{
-		max_parts *= 2;
-		struct part *temp_inventory = realloc(inventory, max_parts * sizeof(struct part));
+		struct part *temp_inventory = realloc(inventory, max_parts * 2 * sizeof(struct part));
 
-		if(temp_inventory == NULL)
+		if (temp_inventory == NULL)
 		{
 			printf("Memory is full; can't add more parts.\n");
 			return;
 		}
 
+		max_parts *= 2;
 		inventory = temp_inventory;
 	}
 
 	printf("Enter part number: ");
 	scanf("%d", &part_number);
 
-	if(find_part(part_number) >= 0)
+	if (find_part(part_number) >= 0)
 	{
 		printf("Part already exists.\n");
 		return;
@@ -127,7 +122,6 @@ void insert(void)
 	scanf("%d", &inventory[num_parts].on_hand);
 	num_parts++;
 }
-
 
 /**********************************************************
  * search: Prompts the user to enter a part number, then  *
@@ -145,7 +139,7 @@ void search(void)
 	scanf("%d", &number);
 
 	i = find_part(number);
-	if(i >= 0)
+	if (i >= 0)
 	{
 		printf("Part name: %s\n", inventory[i].name);
 		printf("Quantity on hand: %d\n", inventory[i].on_hand);
@@ -153,7 +147,6 @@ void search(void)
 	else
 		printf("Part not found.\n");
 }
-
 
 /************************************************************
  * update: Prompts the user to enter a part number. Prints  *
@@ -171,7 +164,7 @@ void update(void)
 	scanf("%d", &number);
 	i = find_part(number);
 
-	if(i >= 0)
+	if (i >= 0)
 	{
 		printf("Enter change in quantity on hand: ");
 		scanf("%d", &change);
@@ -180,7 +173,6 @@ void update(void)
 	else
 		printf("Part not found.\n");
 }
-
 
 /***********************************************************
  * print: Prints a listing of all parts in the database,   *
