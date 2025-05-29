@@ -58,7 +58,7 @@
  *
  * b) static
  *
- * c) static and extern (for local variables)
+ * c) static and extern (both for local variables)
  *
  */
 
@@ -67,18 +67,35 @@
 // Q3
 
 /*
- * Storage duration
- * static: a, c
- * automatic: b, d
- *
- * Scope
- * block: b, c, d
- * file: a
- *
- * Linkage
- * internal: -
- * external: a
- * none: b, c, d
+ * extern float a;
+ * 
+ * Static storage duration
+ * File scope
+ * External linkage
+ * 
+ * ---
+ * 
+ * register double b
+ * 
+ * Automatic storage duration
+ * Block scope
+ * No linkage
+ * 
+ * ---
+ * 
+ * static int c;
+ * 
+ * Static storage duration
+ * Block scope
+ * No linkage
+ * 
+ * ---
+ * 
+ * auto char d;
+ * 
+ * Automatic storage duration
+ * Block scope
+ * No linkage
  *
  */
 
@@ -90,7 +107,11 @@
  * If f has never been called before, f(10) will return 0
  *
  * If f has been called five times already, f(10) will return 50
- * (Before the last return, i was 10 and j was 5)
+ * 
+ * After calling f(10) five times, j became 5, hence calling f(10)
+ * for the last time returns 10 * 5, which is 50
+ * (j is post-incremented and next time f is called, j will be 
+ * evaluated as 6)
  *
  */
 
@@ -99,14 +120,16 @@
 // Q5
 
 /*
- * a) False: Because static variables defined in functions (or blocks) have block scope
+ * a) False: Local static variables that are defined in functions
+ * (or blocks) have block scope
  *
- * b) False: Because extern variables defined inside functions have external linkage
+ * b) False: As extern variables declared inside functions that have
+ * external definitions in another have external linkage
  *
- * c) True: Because variables with internal linkage were already declared static
- * so they have static storage duration
+ * c) True: As variables with internal linkage were already declared
+ * static, so they have static storage duration
  *
- * d) True: Because they are defined in a function which is already a block
+ * d) True: As they are defined in a function which is already a block
  *
  */
 
@@ -147,16 +170,19 @@ void print_error(const char *message)
 // Q8
 
 /*
- * a) Array of 10 pointers to functions that take integer as input and return a character
+ * a) Array of 10 pointers to functions that take integer as input
+ * and return a character
  *
- * b) Function that takes an int as input and returns a pointer to an array of five integers
+ * b) Function that takes an int as input and returns a pointer to
+ * an array of five integers
  *
- * c) Function that has no parameters and returns a pointer to function that
- * takes an integer as input and returns a pointer to float
+ * c) Function that has a void parameter and returns a pointer to
+ * a function that takes an integer as input and returns a pointer
+ * to float
  *
- * d) Function that takes an integer and a pointer to function that takes an int and
- * returns nothing as inputs and returns a pointer to function that takes an integer
- * as input and returns nothing
+ * d) Function that takes an integer and a pointer to function (that
+ * takes an int and returns nothing) as inputs and returns a pointer
+ * to function that takes an integer as input and returns nothing
  *
  */
 
@@ -164,33 +190,42 @@ void print_error(const char *message)
 
 // Q9
 /*
-// a) char (*x[10])(int);
-typedef char fun(int);
-typedef fun *fun_ptr;
-typedef fun_ptr fun_ptr_arr[10];
-//fun_ptr_arr x;
-
-
-// b) int (*x(int))[5];
-typedef int arr[5];
-typedef arr *arr_ptr;
-typedef arr_ptr fun(int);
-//fun x;
-
-
-// c) float *(*x(void))(int);
-typedef float *fptr_fun_i(int);
-typedef fptr_fun_i *fptr_fun_i_ptr;
-typedef fptr_fun_i_ptr fun(void);
-//fun x;
-
-
-// d) void (*x(int, void (*y)(int)))(int);
-typedef void v_fun_i(int);
-typedef v_fun_i *v_fun_i_ptr;
-typedef v_fun_i_ptr fun(int, v_fun_i_ptr);
-//fun x;
-*/
+ * a) char (*x[10])(int);
+ *
+ * typedef char fcn(int);
+ * typedef fcn *fcn_ptr;
+ * typedef fcn_ptr fcn_ptr_arr[10];
+ * fcn_ptr_arr x;
+ *
+ * ---
+ *
+ * b) int (*x(int))[5];
+ *
+ * typedef int arr[5];
+ * typedef arr *arr_ptr;
+ * typedef arr_ptr arr_ptr_fcn(int);
+ * arr_ptr_fcn x;
+ *
+ * ---
+ *
+ * c) float *(*x(void))(int);
+ *
+ * typedef float *fcn(int);
+ * typedef fcn *fcn_ptr;
+ * typedef fcn_ptr fcn_ptr_fcn(void);
+ * fcn_ptr_fcn x;
+ *
+ * ---
+ *
+ * d) void (*x(int, void (*y)(int)))(int);
+ *
+ * typedef void f(int);
+ * typedef f *fp;
+ * typedef fp fp_fcn(int, fp);
+ * fp_fcn x;
+ *
+ *
+ */
 
 //----------------------------------
 
@@ -234,15 +269,19 @@ typedef v_fun_i_ptr fun(int, v_fun_i_ptr);
 // Q12
 
 /*
- * a) A function f that takes as its parameters:
- * - A pointer to function that takes a long as its parameter and returns a float
- * - A pointer to character
- *
- * and returns a pointer to function that takes a double as its parameter and returns
- * an integer.
+ * a) f is a function that takes two parameters as inputs (a pointer to 
+ * a function that takes long and returns a float, and a pointer to a 
+ * character) and returns a pointer to a function that takes a double 
+ * argument and returns an integer
  *
  *
- * b) int *i_ptr = f(f_fun_l_ptr, ch_ptr)(lf_val);
+ * b) Here is a fragment:
+ * float (*float_fptr_long)(long) = some_function;
+ * char ch = 'a';
+ * double d = 2.2;
+ * int i;
+ * ...
+ * i = (*f(float_fptr_long, &ch))(d);
  *
  */
 
@@ -253,7 +292,9 @@ typedef v_fun_i_ptr fun(int, v_fun_i_ptr);
 /*
  * a) Legal
  *
- * b) Illegal: because the initializer of a static variable (of static storage duration)
+ * b) Illegal:
+ * While the initialization of i is legal, the initialization of j is
+ * illegal as the initializer of a variable with static storage duration
  * must be a constant expression.
  *
  * c) Legal
@@ -276,7 +317,9 @@ typedef v_fun_i_ptr fun(int, v_fun_i_ptr);
 // Q15
 
 /*
- * a) Storage duration, since variables with static storage duration have initial value
- * of zero while variables with automatic storage duration have no initial value
+ * (a) Storage duration, since variables with static storage duration have
+ * initial value of zero while variables with automatic storage duration
+ * have no default initial value (different value each time the variable
+ * comes into existence)
  *
  */
