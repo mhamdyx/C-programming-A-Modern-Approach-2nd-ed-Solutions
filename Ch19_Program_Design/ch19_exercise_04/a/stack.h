@@ -19,10 +19,13 @@ typedef struct
 } Stack;
 
 void make_empty(Stack *s);
-bool is_empty(const Stack *s);
-bool is_full(const Stack *s);
-void push(Stack *s, int i);
-int pop(Stack *s);
 
+bool is_empty(const Stack *s);
+
+bool is_full(const Stack *s);
+
+void push(Stack *s, int i);
+
+int pop(Stack *s);
 
 #endif /* STACK_H_ */

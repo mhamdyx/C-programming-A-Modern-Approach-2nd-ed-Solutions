@@ -25,19 +25,19 @@ PUBLIC void make_empty(Stack *s)
 	s->top = 0;
 }
 
-PUBLIC bool is_empty(Stack *s)
+PUBLIC bool is_empty(const Stack *s)
 {
 	return s->top == 0;
 }
 
-PUBLIC bool is_full(Stack *s)
+PUBLIC bool is_full(const Stack *s)
 {
 	return s->top == STACK_SIZE;
 }
 
 PUBLIC void push(Stack *s, int i)
 {
-	if(is_full(s))
+	if (is_full(s))
 		terminate("Error in push: stack is full.");
 
 	s->contents[s->top++] = i;
@@ -45,7 +45,7 @@ PUBLIC void push(Stack *s, int i)
 
 PUBLIC int pop(Stack *s)
 {
-	if(is_empty(s))
+	if (is_empty(s))
 		terminate("Error in pop: stack is empty.");
 
 	return s->contents[--s->top];
