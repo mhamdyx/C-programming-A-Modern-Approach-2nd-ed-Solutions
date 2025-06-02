@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include "queue.h"
 
-#define PUBLIC /* empty */
+#define PUBLIC
 #define PRIVATE static
 
 PRIVATE void terminate(const char *message)
@@ -20,53 +20,47 @@ PRIVATE void terminate(const char *message)
 	exit(EXIT_FAILURE);
 }
 
-
 PUBLIC void enqueue(Queue *q, int i)
 {
-	if(q->size == QUEUE_SIZE)
+	if (q->qsize == QUEUE_SIZE)
 		terminate("Error in enqueue: queue is full.");
 
 	q->buffer[q->rear++] = i;
-	q->size++;
-
-	if(q->rear == QUEUE_SIZE)
-		q->rear = 0;
+	q->rear %= QUEUE_SIZE; // Keep rear within bounds
+	q->qsize++;
 }
 
 PUBLIC int dequeue(Queue *q)
 {
-	if(is_empty(q))
+	int i;
+
+	if (is_empty(q))
 		terminate("Error in dequeue: queue is empty.");
 
-	int i = q->buffer[q->front++];
-	q->size--;
-
-	if(q->front == QUEUE_SIZE)
-		q->front = 0;
+	i = q->buffer[q->front++];
+	q->front %= QUEUE_SIZE; // Keep front within bounds
+	q->qsize--;
 
 	return i;
 }
 
-PUBLIC int front_item(Queue *q)
+PUBLIC int front_item(const Queue *q)
 {
-	if(is_empty(q))
+	if (is_empty(q))
 		terminate("Error in front_item: queue is empty.");
 
 	return q->buffer[q->front];
 }
 
-PUBLIC int rear_item(Queue *q)
+PUBLIC int rear_item(const Queue *q)
 {
-	if(is_empty(q))
+	if (is_empty(q))
 		terminate("Error in rear_item: queue is empty.");
 
-	if(q->rear == 0)
-		return q->buffer[QUEUE_SIZE - 1];
-
-	return q->buffer[q->rear - 1];
+	return (q->rear ? q->buffer[q->rear - 1] : q->buffer[QUEUE_SIZE - 1]);
 }
 
-PUBLIC bool is_empty(Queue *q)
+PUBLIC bool is_empty(const Queue *q)
 {
-	return q->size == 0;
+	return q->qsize == 0; // or q->front == q->rear;
 }
