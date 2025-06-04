@@ -39,11 +39,11 @@ Stack create(int size)
 {
 	Stack s = malloc(sizeof(struct stack_type));
 
-	if(s == NULL)
+	if (s == NULL)
 		terminate("Error in create: stack could not be created.");
 
 	s->contents = malloc(size * sizeof(Item));
-	if(s->contents == NULL)
+	if (s->contents == NULL)
 	{
 		free(s);
 		terminate("Error in create: stack could not be created.");
@@ -78,13 +78,12 @@ bool is_full(Stack s)
 
 void push(Stack s, Item i)
 {
-	if(is_full(s))
+	if (is_full(s))
 	{
 		Item *new_contents = realloc(s->contents, s->size * 2 * sizeof(Item));
-		if(new_contents == NULL)
+		if (new_contents == NULL)
 			terminate("Error in push: stack is full.");
 
-		free(s->contents);
 		s->contents = new_contents;
 		s->size *= 2;
 	}
@@ -94,7 +93,7 @@ void push(Stack s, Item i)
 
 Item pop(Stack s)
 {
-	if(is_empty(s))
+	if (is_empty(s))
 		terminate("Error in pop: stack is empty.");
 
 	return s->contents[--s->top];
