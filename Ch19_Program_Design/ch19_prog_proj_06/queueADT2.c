@@ -30,12 +30,12 @@ Queue create(int size)
 {
 	Queue q = malloc(sizeof(struct queue_type));
 
-	if(q == NULL)
+	if (q == NULL)
 		terminate("Error in create: queue could not be created.");
 
 	q->buffer = malloc(size * sizeof(Item));
 
-	if(q->buffer == NULL)
+	if (q->buffer == NULL)
 	{
 		free(q);
 		terminate("Error in create: queue could not be created.");
@@ -63,27 +63,29 @@ void make_empty(Queue q)
 // Inserting item at the end of the queue
 void enqueue(Queue q, Item i)
 {
-	if(is_full(q))
+	if (is_full(q))
 		terminate("Error in enqueue: queue is full.");
 
 	q->buffer[q->write++] = i;
 	q->size++;
 
-	if(q->write == q->max_size)
-		q->write = 0;
+	if (q->write == q->max_size)
+		q->write = 0; // Keep write (rear) within bounds
 }
 
 // Removing an item from the beginning of the queue
 Item dequeue(Queue q)
 {
-	if(is_empty(q))
+	Item i;
+
+	if (is_empty(q))
 		terminate("Error in dequeue: queue is empty.");
 
-	Item i = q->buffer[q->read++];
+	i = q->buffer[q->read++];
 	q->size--;
 
-	if(q->read == q->max_size)
-		q->read = 0;
+	if (q->read == q->max_size)
+		q->read = 0; // Keep read (front) within bounds
 
 	return i;
 }
@@ -91,7 +93,7 @@ Item dequeue(Queue q)
 // Returning the first item in the queue (without changing the queue)
 Item front(Queue q)
 {
-	if(is_empty(q))
+	if (is_empty(q))
 		terminate("Error in front: queue is empty.");
 
 	return q->buffer[q->read];
@@ -100,13 +102,10 @@ Item front(Queue q)
 // Returning the last item in the queue (without changing the queue)
 Item rear(Queue q)
 {
-	if(is_empty(q))
+	if (is_empty(q))
 		terminate("Error in rear: queue is empty.");
 
-	if(q->write == 0)
-		return q->buffer[q->max_size - 1];
-
-	return q->buffer[q->write - 1];
+	return (q->write ? q->buffer[q->write - 1] : q->buffer[q->max_size - 1]);
 }
 
 bool is_empty(Queue q)

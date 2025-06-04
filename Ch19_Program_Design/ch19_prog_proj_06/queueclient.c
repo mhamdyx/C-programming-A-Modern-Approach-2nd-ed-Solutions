@@ -32,13 +32,13 @@ int main(void)
 
 	destroy(q1);
 
-	while(!is_empty(q2))
+	while (!is_empty(q2))
 		printf("Dequeued %d from q2\n", dequeue(q2));
 
 	enqueue(q2, 3);
 	make_empty(q2);
 
-	if(is_empty(q2))
+	if (is_empty(q2))
 		printf("q2 is empty\n");
 	else
 		printf("q2 is not empty\n");
