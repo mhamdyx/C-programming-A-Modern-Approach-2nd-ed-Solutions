@@ -19,8 +19,8 @@ struct node
 
 struct queue_type
 {
-	struct node *front_node;
-	struct node *rear_node;
+	struct node *front;
+	struct node *rear;
 };
 
 static void terminate(char *message)
@@ -36,8 +36,8 @@ Queue create(void)
 	if(q == NULL)
 		terminate("Error in create: queue could not be created.");
 
-	q->front_node = NULL;
-	q->rear_node = NULL;
+	q->front = NULL;
+	q->rear = NULL;
 
 	return q;
 }
@@ -50,7 +50,7 @@ void destroy(Queue q)
 
 void make_empty(Queue q)
 {
-	while(!is_empty(q))
+	while (!is_empty(q))
 		dequeue(q);
 }
 
@@ -62,38 +62,32 @@ void enqueue(Queue q, Item i)
 	if(new_rear == NULL)
 		terminate("Error in enqueue: queue is full.");
 
+	if (q->rear == NULL) // In case queue was empty
+		q->front = new_rear;
+	else
+		q->rear->next = new_rear;
+
 	new_rear->data = i;
 	new_rear->next = NULL;
-
-	if(is_empty(q))
-	{
-		q->front_node = q->rear_node = new_rear;
-		return;
-	}
-
-	q->rear_node->next = new_rear;
-	q->rear_node = new_rear;
+	q->rear = new_rear;
 }
 
-// Removing an item from the beginning of the queue
 Item dequeue(Queue q)
 {
 	struct node *old_front;
 	Item i;
 
-	if(is_empty(q))
+	if (is_empty(q))
 		terminate("Error in dequeue: queue is empty.");
 
-	old_front = q->front_node;
+	old_front = q->front;
 	i = old_front->data;
-
-	// In case only one node exists in linked-list
-	if(q->front_node == q->rear_node)
-		q->front_node = q->rear_node = NULL;
-	else
-		q->front_node = old_front->next;
-
+	q->front = q->front->next;
 	free(old_front);
+
+	// If the queue became empty, rear would be NULL
+	if (is_empty(q))
+		q->rear = NULL;
 
 	return i;
 }
@@ -101,24 +95,24 @@ Item dequeue(Queue q)
 // Returning the first item in the queue (without changing the queue)
 Item front(Queue q)
 {
-	if(is_empty(q))
+	if (is_empty(q))
 		terminate("Error in front: queue is empty.");
 
-	return q->front_node->data;
+	return q->front->data;
 }
 
 // Returning the last item in the queue (without changing the queue)
 Item rear(Queue q)
 {
-	if(is_empty(q))
+	if (is_empty(q))
 		terminate("Error in rear: queue is empty.");
 
-	return q->rear_node->data;
+	return q->rear->data;
 }
 
 bool is_empty(Queue q)
 {
-	return q->front_node == NULL;
+	return q->front == NULL;
 }
 
 bool is_full(Queue q)
