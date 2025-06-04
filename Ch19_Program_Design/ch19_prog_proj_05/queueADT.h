@@ -13,7 +13,6 @@
 typedef int Item;
 typedef struct queue_type *Queue;
 
-
 Queue create(void);
 
 void destroy(Queue q);
