@@ -29,7 +29,7 @@ Stack create(void)
 {
 	Stack s = malloc(sizeof(struct stack_type));
 
-	if(s == NULL)
+	if (s == NULL)
 		terminate("Error in create: stack could not be created.");
 
 	s->top = 0;
@@ -59,7 +59,7 @@ bool is_full(Stack s)
 
 void push(Stack s, Item i)
 {
-	if(is_full(s))
+	if (is_full(s))
 		terminate("Expression is too complex");
 
 	s->contents[s->top++] = i;
@@ -67,7 +67,7 @@ void push(Stack s, Item i)
 
 Item pop(Stack s)
 {
-	if(is_empty(s))
+	if (is_empty(s))
 		terminate("Not enough operands in expression");
 
 	return s->contents[--s->top];
