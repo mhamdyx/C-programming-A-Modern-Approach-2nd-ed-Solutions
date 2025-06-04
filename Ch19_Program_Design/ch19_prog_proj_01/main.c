@@ -14,42 +14,35 @@
 
 int main(void)
 {
-	char input;
-	bool match = true;
+	char input_ch;
+	bool match;
 	Stack s = create();
 
 	printf("Enter parentheses and/or braces: ");
 
-	while((input = getchar()) != '\n')
+	while ((input_ch = getchar()) != '\n')
 	{
-		if(input == '(' || input == '{')
+		if (input_ch == '(' || input_ch == '{')
+			push(s, input_ch);
+		else if (input_ch == ')' && pop(s) != '(')
 		{
 			match = false;
-			push(s, input);
-		}
-		else if(input == ')' && pop(s) != '(')
-		{
 			break;
 		}
-		else if(input == '}' && pop(s) != '{')
+		else if (input_ch == '}' && pop(s) != '{')
 		{
+			match = false;
 			break;
 		}
-		else
-		{
+		else // { matched } or ( matched )
 			match = true;
-		}
 	}
 
 	// Checking if stack is empty
-	if(is_empty(s) && match)
-	{
-		printf("Parentheses/braces are nested properly");
-	}
+	if (is_empty(s) && match)
+		printf("Parentheses/braces are nested properly\n");
 	else
-	{
-		printf("Parentheses/braces are not matched");
-	}
+		printf("Parentheses/braces aren't nested properly\n");
 
 	return 0;
 }
