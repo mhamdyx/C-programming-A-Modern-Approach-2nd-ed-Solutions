@@ -9,25 +9,32 @@
 
 /*
  * a) i = 8, j = 9
- * i >> 1 + j >> 1 = 8 >> 1 + 9 >> 1 = 8 >> 10 >> 1 = 0 >> 1 = 0
+ * i >> 1 + j >> 1 = 8 >> 1 + 9 >> 1 = 8 >> 10 >> 1
+ * = ((8 >> 10) >> 1) = 0 >> 1 = 0
  *
  * Output: 0
  *
  *
  * b) i = 1
- * i & ~i = 1 & (~1) = 1 & 0 = 0
+ * i & ~i = 1 & (~1) = 0000 0000 0000 0001 & 1111 1111 1111 1110
+ * = 0000 0000 0000 0000 = 0
  *
  * Output: 0
  *
  *
  * c) i = 2, j = 1, k = 0
- * ~i & j ^ k = ~2 & 1 ^ 0 = ((~2) & 1) ^ 0 = (65533 & 1) ^ 0 = 1 ^ 0 = 1
+ * ~i & j ^ k  = (((~i) & j) ^ k) = (((~2) & 1) ^ 0)
+ * = (((~0000 0000 0000 0010) & 0000 0000 0000 0001) ^ 0000 0000 0000 0000)
+ * = ((1111 1111 1111 1101 & 0000 0000 0000 0001) ^ 0000 0000 0000 0000)
+ * = (0000 0000 0000 0001 ^ 0000 0000 0000 0000) = 0000 0000 0000 0001 = 1
  *
  * Output: 1
  *
  *
  * d) i = 7, j = 8, k = 9
- * i ^ j & k = 7 ^ 8 & 9 = 7 ^ (8 & 9) = 7 ^ 8 = 0...0111 ^ 0...1000 = 0...1111 = 15
+ * i ^ j & k = (i ^ (j & k)) = (7 ^ (8 & 9)) =
+ * = (0000...0111 ^ (0000...1000 & 0000...1001))
+ * = (0000...0111 ^ 0000...1000) = 0000...1111 = 15
  *
  * Output: 15
  *
@@ -38,14 +45,13 @@
 // Q2
 
 /*
- * Toggling a bit is done by using exclusive or bitwise operator (^):
+ * Toggling a bit is done by using exclusive or bitwise operator (^)
+ * with a mask consisting of 1 shifted by the desired position:
  *
- * Example:
- * i = i ^ 0x10;
- * i ^= 0x10;
- * i ^= i << 4;
+ * Examples to toggle bit 4 in i:
  *
- * Each statement toggles bit 4 in variable i
+ * i = i ^ 0x10; // or i ^= 0x10;
+ * i ^= 1 << 4;
  *
  */
 
@@ -56,10 +62,13 @@
 /*
  * x ^= y ---> x = x ^ y --->(1)
  *
- * y ^= x ---> from (1): y = y ^ x ^ y = x ^ y ^ y = x ^ 0 = x ---> y = x --->(2)
+ * y ^= x ---> y = y ^ x ---> from (1): y = y ^ (x ^ y) = y ^ y ^ x
+ * = 0 ^ x = x ----> y = x --->(2)
  *
- * x ^= y ---> x = (x ^ y) ^ y ---> from (2): x = (x ^ y) ^ x = y ^ x ^ x = y ^ 0 = y
+ * x ^= y ---> x = x ^ y ---> from (1) & (2): x = (x ^ y) ^ (x)
+ * = x ^ x ^ y = 0 ^ y = y --->(3)
  *
+ * From (2) & (3): values of x and y are swapped
  *
  * The result: swapping x and y
  *
@@ -71,7 +80,7 @@
 /*
 #include <stdio.h>
 
-#define MK_COLOR(R, G, B) ((long) (R) | (G) << 8 | (B) << 16)
+#define MK_COLOR(r, g, b) ((long) ((b) << 16) | ((g) << 8) | (r))
 
 int main(void)
 {
@@ -88,8 +97,8 @@ int main(void)
 #include <stdio.h>
 
 #define GET_RED(color) ((u8) ((color) & 0xFF))
-#define GET_GREEN(color) ((u8) ((color) >> 8 & 0xFF))
-#define GET_BLUE(color) ((u8) ((color) >> 16 & 0xFF))
+#define GET_GREEN(color) ((u8) (((color) >> 8) & 0xFF))
+#define GET_BLUE(color) ((u8) (((color) >> 16) & 0xFF))
 
 typedef unsigned char u8;
 
@@ -98,11 +107,10 @@ int main(void)
 	long color = 4342113; // R = 0x61, G = 0x41, B = 0x42
 	u8 red = GET_RED(color), green = GET_GREEN(color), blue = GET_BLUE(color);
 
-	printf("Red = %d, Red in hex = %#x\n\n", red, red);
-
-	printf("Green = %d, Green in hex = %#x\n\n", green, green);
-
-	printf("Blue = %d, Blue in hex = %#x\n\n", blue, blue);
+	printf("Color = %ld, Color in hex = %#lx\n", color, color);
+	printf("Red = %d, Red in hex = %#x\n", red, red);
+	printf("Green = %d, Green in hex = %#x\n", green, green);
+	printf("Blue = %d, Blue in hex = %#x\n", blue, blue);
 
 	return 0;
 }
@@ -112,15 +120,14 @@ int main(void)
 
 // Q6 + test script
 /*
-// Note: h when used with MinGW, causes either a warning or an error
-// Try using %ux instead or even %x
 #include <stdio.h>
 
 unsigned short swap_bytes(unsigned short i); // For (a) and (b)
 
 int main(void)
 {
-	int hex_dec;
+	unsigned short hex_dec;
+	SEB();
 	printf("Enter a hexadecimal number (up to four digits): ");
 	scanf("%hx", &hex_dec);
 
@@ -160,10 +167,11 @@ unsigned int rotate_right(unsigned int i, int n);
 int main(void)
 {
 	unsigned int val = 0x12345678;
+	int rot_val = 4;
 
-	printf("Left-rotated value = %#x\n", rotate_left(val, 4));
-
-	printf("Right-rotated value = %#x\n", rotate_right(val, 4));
+	printf("Original value = %#x\n", val);
+	printf("Left-rotated value by %d = %#x\n", rot_val, rotate_left(val, 4));
+	printf("Right-rotated value by %d = %#x\n", rot_val, rotate_right(val, 4));
 
 	return 0;
 }
@@ -198,9 +206,19 @@ unsigned int rotate_right(unsigned int i, int n)
 // Q8
 
 /*
- * a) ~(~0 << n) = ~(0xFFFFFFFF << n) ---> first n bits are ones and otherwise is zero
+ * a) ~(~0 << n) = ~(0xFFFFFFFF << n) ---> first n bits are ones and 
+ * otherwise is zero
  *
- * b) Returns a bit-field of length n-bits and with position m as the most significant bit
+ * b) Returns a bit-field of length n-bits and with position m as the 
+ * most significant bit
+ * 
+ * Explanation:
+ * Let i = 0x12345678, m = 3, n = 4
+ * 
+ * i >> (m + 1 - n) = i >> (3 + 1 - 4) = i >> 0 = i
+ * ~(~0 << n) = ~(0xFFFFFFFF << 4) = ~(0xFFFFFFF0) = 0x0000000F = 0xF
+ * i & 0xF = 0x12345678 & 0x0000000F = 0x00000008 = 0x8 = 1000
+ * Most significant bit of 1000 is bit 3 (and m = 3)
  *
  */
 
@@ -256,25 +274,21 @@ unsigned int reverse_bits(unsigned int n);
 
 int main(void)
 {
-	unsigned int n = 255;
+	unsigned int n = 0xA0A0A0A0;
 
-	printf("reversed number = %x", reverse_bits(n));
+	printf("Original number = %#.8X\n", n);
+	printf("Reversed number = %#.8X\n", reverse_bits(n));
 	return 0;
 }
 
 unsigned int reverse_bits(unsigned int n)
 {
-	unsigned int left_bit, right_bit;
-	for(int i = 0; i < 16; i++)
-	{
-		left_bit = (n >> i) & 1;
-		right_bit = (n >> (31 - i)) & 1;
+	// Start from the position of most and least significant bits
+	unsigned int high_bit = sizeof(n) * 8 - 1, low_bit = 0;
 
-		if(left_bit != right_bit)
-		{
-			n ^= ((1 << i) | (1 << (31 - i)));
-		}
-	}
+	for (; low_bit < high_bit; low_bit++, high_bit--)
+		if ((n >> high_bit & 1) != (n >> low_bit & 1))
+			n ^= ((1 << high_bit) | (1 << low_bit));
 
 	return n;
 }
@@ -285,16 +299,17 @@ unsigned int reverse_bits(unsigned int n)
 // Q11
 
 /*
- * Since the bitwise operators '&', '^', and '|' have lower precedence than
- * relational and equality operators. The condition will always fail no matter
- * how many control keys are pressed as the first condition to be evaluated is:
- * (SHIFT_BIT | CTRL_BIT | ALT_BIT) == 0 which is always false if either BIT
- * is set.
+ * Since the bitwise operators '&', '^', and '|' have lower precedence
+ * than relational and equality operators. The condition will always fail
+ * no matter how many control keys are pressed as the first condition to
+ * be evaluated is: (SHIFT_BIT | CTRL_BIT | ALT_BIT) == 0 which is always
+ * false if either BIT is set.
  *
- * If any bit is set the condition will be: if(key_code & false) which is false
- * but this is incorrect.
+ * If any bit is set the condition will be: if(key_code & false) which is
+ * false but this is incorrect.
  *
- * To fix this condition, we have to add parentheses to prioritize the bitwise &:
+ * To fix this condition, we have to add parentheses to prioritize the 
+ * bitwise &:
  *
  * if((key_code & (SHIFT_BIT | CTRL_BIT | ALT_BIT)) == 0)
  *
@@ -353,6 +368,47 @@ unsigned short create_short(unsigned char high_byte, unsigned char low_byte)
  *
  */
 
+// Script to monitor the behavior
+/*
+#include <stdio.h>
+
+void print_binary(unsigned int n);
+void strange_function(unsigned int n);
+
+int main(void)
+{
+	unsigned int i, j, k;
+
+	i = 10;
+	j = 95;
+	k = 235;
+
+	strange_function(i);
+	strange_function(j);
+	strange_function(k);
+
+	return 0;
+}
+
+void strange_function(unsigned int n)
+{
+	for (; n; n &= n - 1)
+		print_binary(n);
+
+	putchar('\n');
+}
+
+void print_binary(unsigned int n)
+{
+	int i = sizeof(n) * 8;
+
+	for (; i >= 0; i--)
+		printf("%d", (n >> i) & 1);
+
+	putchar('\n');
+}
+*/
+
 //----------------------------------
 
 // Q14
@@ -384,12 +440,12 @@ int main(void)
 // Q15
 
 /*
- * a) Because some compilers treat the field's high-order bit as a sign bit, but
- * others don't. So, the compilers that treat it as a sign bit will have the program
- * print -1 and vice versa.
+ * a) Because some compilers treat the field's high-order bit as a sign bit,
+ * but others don't. So, the compilers that treat it as a sign bit will have
+ * the program print -1 and vice versa.
  *
- * b) To avoid this ambiguity, declare all bit-fields to be either unsigned int
- * or signed int.
+ * b) To avoid this ambiguity, declare all bit-fields to be either
+ * unsigned int or signed int.
  *
  */
 
@@ -412,26 +468,27 @@ union
 
 	struct
 	{
-		WORD AX, DA, BX, DB, CX, DC, DX, DD;
+		WORD AX, EAXH, BX, EBXH, CX, ECXH, DX, EDXH;
 	} word;
 
 	struct
 	{
-		BYTE al, ah, dal, dah, bl, bh, dbl, dbh, cl, ch, dcl, dch, dl, dh, ddl, ddh;
+		BYTE AL, AH, EAXH_L, EAXH_H;
+		BYTE BL, BH, EBXH_L, EBXH_H;
+		BYTE CL, CH, ECXH_L, ECXH_H;
+		BYTE DL, DH, EDXH_L, EDXH_H;
 	} byte;
 } regs;
 
 int main(void)
 {
 
-	regs.byte.ah = 0xab;
-	regs.byte.al = 0xcd;
-
-	printf("AX = %#x, EAX = %#.8lx\n", regs.word.AX, regs.dword.EAX);
+	regs.byte.AH = 0xab;
+	regs.byte.AL = 0xcd;
+	printf("AX = %#X, EAX = %#.8lX\n", regs.word.AX, regs.dword.EAX);
 
 	regs.dword.EAX = 0xabcdeeff;
-
-	printf("AX = %#x, ah = %#x, al = %#x\n", regs.word.AX, regs.byte.ah, regs.byte.al);
+	printf("AX = %#.4X, AH = %#X, AL = %#X\n", regs.word.AX, regs.byte.AH, regs.byte.AL);
 
 	return 0;
 }
