@@ -50,7 +50,7 @@ This project represents my wonderful learning experience and how I was so patien
 ### The Standard C Library
 
 - [Chapter 21: The Standard Library](Ch21_The_Standard_Library) ![image](https://progress-bar.xyz/100/?width=100)
-- [Chapter 22: Input Output](Ch22_Input_Output) ![image](https://progress-bar.xyz/23/?width=100&scale=35&suffix=/35)
+- [Chapter 22: Input Output](Ch22_Input_Output) ![image](https://progress-bar.xyz/24/?width=100&scale=35&suffix=/35)
 - Chapter 23: Library Support for Numbers and Character Data ![image](https://progress-bar.xyz/0/?width=100&scale=20&suffix=/20)
 - Chapter 24: Error Handling ![image](https://progress-bar.xyz/0/?width=100&scale=5&suffix=/5)
 - Chapter 25: International Features ![image](https://progress-bar.xyz/0/?width=100&scale=9&suffix=/9)
@@ -63,7 +63,6 @@ This project represents my wonderful learning experience and how I was so patien
 
 ### Chapter 22: Input Output
 
-- Programming Project 8
 - Programming Project 9
 - Programming Project 10
 - Programming Project 11
