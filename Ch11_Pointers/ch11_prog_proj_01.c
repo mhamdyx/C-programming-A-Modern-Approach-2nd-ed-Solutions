@@ -28,19 +28,19 @@ int main(void)
 
 void pay_amount(int dollars, int *twenties, int *tens, int *fives, int *ones)
 {
-	if(dollars > 20)
+	if(dollars >= 20)
 	{
 		*twenties = dollars / 20;
 		dollars %= 20;
 	}
 
-	if(dollars > 10)
+	if(dollars >= 10)
 	{
 		*tens = dollars / 10;
 		dollars %= 10;
 	}
 
-	if(dollars > 5)
+	if(dollars >= 5)
 	{
 		*fives = dollars / 5;
 		dollars %= 5;
