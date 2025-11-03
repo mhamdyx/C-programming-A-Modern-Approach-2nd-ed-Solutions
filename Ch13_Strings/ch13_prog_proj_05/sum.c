@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 {
 	int sum = 0, i = 0;
 
-	while(i++ < argc)
+	while(++i < argc)
 		sum += atoi(argv[i]);
 
 	printf("Total: %d\n", sum);
